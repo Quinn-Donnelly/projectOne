@@ -10,7 +10,7 @@ create table employees (
     ),
     password varchar2(200) not null,
     manager_id number(10),
-    address_id number(10) not null
+    address_id number(10)
 );
 
 -- Creates the address table to store various addresses for the database
@@ -41,18 +41,16 @@ create table requests(
 -- Manager ID's should reference their emplyee data
 alter table employees add constraint employees_FK_managerID foreign key (manager_id) references employees (employee_id);
 -- Address ID's should reference the address entry
-alter table employees add constraint employees_FK_addressID foreign key (address_id) references addresses (address_id);
+alter table employees add constraint employees_FK_addressID foreign key (address_id) references addresses (address_id) on delete set null;
 -- Requester ID should reference the employee that made the request
 alter table requests add constraint requests_FK_requesterID foreign key (requester_id) references employees (employee_id);
 -- Resolver ID should reference the employee that closes the ticket if the ticket has been resolved
 alter table requests add constraint requests_FK_resolverID foreign key (resolver_id) references employees (employee_id);
 
 --=========================================== Triggers =================================================
-create or replace trigger on_user_delete
+create or replace trigger on_employee_delete
 after delete on employees
 for each row
-declare
-    removing number(10);
 begin
     delete from addresses where address_id = address_id;
 end;

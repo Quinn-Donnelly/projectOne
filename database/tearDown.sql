@@ -5,13 +5,13 @@ alter table employees drop constraint employees_FK_addressID;
 alter table requests drop constraint requests_FK_requesterID;
 alter table requests drop constraint requests_FK_resolverID;
 
+-- Triggers
+drop trigger on_employee_delete;
+
 -- Tables
 drop table addresses;
 drop table employees;
 drop table requests;
-
--- Triggers
-drop trigger on_user_delete;
 
 -- Sequences
 drop sequence employee_id;
