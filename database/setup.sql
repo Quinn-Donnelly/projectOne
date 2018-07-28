@@ -24,6 +24,15 @@ create table addresses (
     apartment_numebr number(10)
 );
 
+create requests(
+    request_id number(10) primary key,
+    requester_id number(10),
+    resolver_id number(10),
+    date_of_request timestamp not null,
+    date_of_resolution(10),
+    status number()
+);
+
 --================================ Foreign Key Constraints =============================================
 -- Manager ID's should reference their emplyee data
 alter table employees add constraint employees_FK_managerID foreign key (manager_id) references employees (employee_id);
@@ -40,6 +49,11 @@ create sequence employee_id
     
 -- generates primary key for addresses
 create sequence address_id 
+    start with 1
+    increment by 1
+    nocycle;
+
+create sequence request_id
     start with 1
     increment by 1
     nocycle;
