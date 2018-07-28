@@ -24,13 +24,13 @@ create table addresses (
     apartment_numebr number(10)
 );
 
-create requests(
+create table requests(
     request_id number(10) primary key,
-    requester_id number(10),
+    requester_id number(10) not null,
     resolver_id number(10),
     date_of_request timestamp not null,
-    date_of_resolution(10),
-    status number()
+    date_of_resolution timestamp,
+    status varchar2(200) not null
 );
 
 --================================ Foreign Key Constraints =============================================
@@ -38,6 +38,10 @@ create requests(
 alter table employees add constraint employees_FK_managerID foreign key (manager_id) references employees (employee_id);
 -- Address ID's should reference the address entry
 alter table employees add constraint employees_FK_addressID foreign key (address_id) references addresses (address_id) on delete cascade;
+-- Requester ID should reference the employee that made the request
+alter table requests add constraint requests_FK_requesterID foreign key (requester_id) references employees (employee_id);
+-- Resolver ID should reference the employee that closes the ticket if the ticket has been resolved
+alter table requests add constraint requests_FK_resolverID foreign key (resolver_id) references employees (employee_id);
 
 --=========================================== Sequences ================================================
 
