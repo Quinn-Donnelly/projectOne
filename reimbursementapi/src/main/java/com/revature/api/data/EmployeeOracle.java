@@ -60,7 +60,17 @@ public class EmployeeOracle implements EmployeeDOA {
 	}
 
 	public boolean deleteEmployee(int id) {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "DELETE FROM EMPLOYEES WHERE employee_id = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			if (ps.executeUpdate() > 0)
+				return true;
+		} catch (SQLException e) {
+			log.error("Error in delete employee DOA: " + e.getMessage());
+		}
+
 		return false;
 	}
 

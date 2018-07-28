@@ -25,4 +25,8 @@ public class EmployeeService {
 	public Employee createEmployee(Employee emp, Address add) {
 		return doa.createEmployee(emp, add);
 	}
+	
+	public boolean deleteEmployee(int id) {
+		return doa.deleteEmployee(id);
+	}
 }

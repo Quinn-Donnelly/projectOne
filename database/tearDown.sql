@@ -10,6 +10,9 @@ drop table addresses;
 drop table employees;
 drop table requests;
 
+-- Triggers
+drop trigger on_user_delete;
+
 -- Sequences
 drop sequence employee_id;
 drop sequence address_id;
