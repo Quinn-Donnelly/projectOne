@@ -17,3 +17,5 @@ drop sequence request_id;
 
 -- Stored Procedures
 drop procedure add_employee;
+drop procedure add_request;
+drop procedure resolve_request;

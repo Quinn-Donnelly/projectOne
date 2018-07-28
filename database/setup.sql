@@ -33,6 +33,7 @@ create table requests(
     status varchar2(200) not null,
     title varchar2(200) not null,
     description varchar2(200),
+    resolution_note varchar2(200),
     amount binary_float not null
 );
 
@@ -73,8 +74,20 @@ begin
     insert into employees values (employee_id.nextval, first_name, last_name, email, password, manager_id, address_id.currval);
     new_employee_id := employee_id.currval;
 end;
+/
 
 create or replace procedure add_request(requester number, title varchar2, description varchar2, amount binary_float) as
 begin
-    insert into requests values (request_id.nextval, requester, null, CURRENT_TIMESTAMP, null, 'NEW', title, description, amount);
+    insert into requests values (request_id.nextval, requester, null, CURRENT_TIMESTAMP, null, 'NEW', title, description, null, amount);
 end;
+/
+
+create or replace procedure resolve_request(request number, resolver number, is_approved number, note varchar2) as
+begin
+    if is_approved > 0 then
+        update requests set resolver_id = resolver, status = 'APPROOVED', resolution_note = note, date_of_resolution = CURRENT_TIMESTAMP where request_id = request;
+    else
+        update requests set resolver_id = resolver, status = 'DENIED', resolution_note = note, date_of_resolution = CURRENT_TIMESTAMP where request_id = request;
+    end if;
+end;
+/
