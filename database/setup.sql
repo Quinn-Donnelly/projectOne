@@ -21,7 +21,7 @@ create table addresses (
     state varchar2(10),
     zipcode number(10) not null,
     street varchar2 (200) not null,
-    apartment_numebr number(10)
+    apartment_number number(10)
 );
 
 create table requests(
@@ -30,7 +30,10 @@ create table requests(
     resolver_id number(10),
     date_of_request timestamp not null,
     date_of_resolution timestamp,
-    status varchar2(200) not null
+    status varchar2(200) not null,
+    title varchar2(200) not null,
+    description varchar2(200),
+    amount binary_float not null
 );
 
 --================================ Foreign Key Constraints =============================================
@@ -61,3 +64,12 @@ create sequence request_id
     start with 1
     increment by 1
     nocycle;
+
+--======================================= Stored Procedures ============================================
+
+create or replace procedure add_employee(first_name varchar2, last_name varchar2, email varchar2, password varchar2, manager_id number, country varchar2, state varchar2, zipcode number, street varchar2, apartment_number number, new_employee_id out number) as
+begin
+    insert into addresses values(address_id.nextval, country, state, zipcode, street, apartment_number);
+    insert into employees values (employee_id.nextval, first_name, last_name, email, password, manager_id, address_id.currval);
+    new_employee_id := employee_id.currval;
+end;

@@ -3,6 +3,7 @@
 alter table employees drop constraint employees_FK_managerID;
 alter table employees drop constraint employees_FK_addressID;
 alter table requests drop constraint requests_FK_requesterID;
+alter table requests drop constraint requests_FK_resolverID;
 
 -- Tables
 drop table addresses;
@@ -13,3 +14,6 @@ drop table requests;
 drop sequence employee_id;
 drop sequence address_id;
 drop sequence request_id;
+
+-- Stored Procedures
+drop procedure add_employee;
