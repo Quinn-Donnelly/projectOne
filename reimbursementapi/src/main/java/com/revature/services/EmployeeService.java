@@ -29,4 +29,8 @@ public class EmployeeService {
 	public boolean deleteEmployee(int id) {
 		return doa.deleteEmployee(id);
 	}
+	
+	public Employee getEmployee(int id) {
+		return doa.getEmployee(id);
+	}
 }

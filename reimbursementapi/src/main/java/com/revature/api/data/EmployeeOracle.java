@@ -80,7 +80,28 @@ public class EmployeeOracle implements EmployeeDOA {
 	}
 
 	public Employee getEmployee(int id) {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "SELECT * FROM EMPLOYEES WHERE employee_id = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				return new Employee (
+					rs.getInt("EMPLOYEE_ID"), 
+					rs.getString("FIRST_NAME"), 
+					rs.getString("LAST_NAME"),
+					rs.getString("EMAIL"),
+					rs.getString("PASSWORD"),
+					rs.getInt("MANAGER_ID"),
+					rs.getInt("ADDRESS_ID")
+				);
+			}
+		} catch (SQLException e) {
+			log.error("Error in get employee DOA: " + e.getMessage());
+		}
+
 		return null;
 	}
 

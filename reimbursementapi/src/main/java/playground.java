@@ -21,7 +21,9 @@ public class playground {
 				"118 Kilgore Ct.",
 				0
 		);
-		System.out.println(EmployeeService.getService().createEmployee(emp, add));
-//		System.out.println(EmployeeService.getService().deleteEmployee(1));
+		Employee insterted = EmployeeService.getService().createEmployee(emp, add);
+	
+		System.out.println(insterted.equals(EmployeeService.getService().getEmployee(1)));
+		//System.out.println(EmployeeService.getService().deleteEmployee(1));
 	}
 }
