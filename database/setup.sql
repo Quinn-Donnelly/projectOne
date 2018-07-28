@@ -36,7 +36,8 @@ create table requests(
     resolution_note varchar2(200),
     amount binary_float not null
 );
-
+--====================================== Setup =========================================================
+insert into employees values (0,'No Boss', '123', 'a@a.a', ' ', null, null);
 --================================ Foreign Key Constraints =============================================
 -- Manager ID's should reference their emplyee data
 alter table employees add constraint employees_FK_managerID foreign key (manager_id) references employees (employee_id);
@@ -68,11 +69,12 @@ create sequence request_id
 
 --======================================= Stored Procedures ============================================
 
-create or replace procedure add_employee(first_name varchar2, last_name varchar2, email varchar2, password varchar2, manager_id number, country varchar2, state varchar2, zipcode number, street varchar2, apartment_number number, new_employee_id out number) as
+create or replace procedure add_employee(first_name varchar2, last_name varchar2, email varchar2, password varchar2, manager_id number, country varchar2, state varchar2, zipcode number, street varchar2, apartment_number number, new_employee_id out number, new_address_id out number) as
 begin
     insert into addresses values(address_id.nextval, country, state, zipcode, street, apartment_number);
     insert into employees values (employee_id.nextval, first_name, last_name, email, password, manager_id, address_id.currval);
     new_employee_id := employee_id.currval;
+    new_address_id := address_id.currval;
 end;
 /
 

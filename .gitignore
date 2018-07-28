@@ -1,3 +1,5 @@
+connection.properties
+
 *.java.hsp
 *.sonarj
 *.sw*
