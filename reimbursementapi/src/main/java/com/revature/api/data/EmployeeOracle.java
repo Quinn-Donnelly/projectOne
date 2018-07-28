@@ -106,7 +106,31 @@ public class EmployeeOracle implements EmployeeDOA {
 	}
 
 	public List<Employee> getAllEmployees() {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "SELECT * FROM EMPLOYEES";
+			PreparedStatement ps = con.prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			
+			List<Employee> list = new ArrayList<Employee>();
+			
+			while(rs.next()) {
+				list.add(new Employee (
+					rs.getInt("EMPLOYEE_ID"), 
+					rs.getString("FIRST_NAME"), 
+					rs.getString("LAST_NAME"),
+					rs.getString("EMAIL"),
+					rs.getString("PASSWORD"),
+					rs.getInt("MANAGER_ID"),
+					rs.getInt("ADDRESS_ID")
+				));
+			}
+			
+			return list;
+		} catch (SQLException e) {
+			log.error("Error in get employee DOA: " + e.getMessage());
+		}
+
 		return null;
 	}
 

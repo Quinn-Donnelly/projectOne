@@ -8,7 +8,7 @@ public class playground {
 				0,
 				"quinn",
 				"donnelly",
-				"quinndonnelly22@gmail.com",
+				"quinndonnelly23@gmail.com",
 				"123",
 				0,
 				0
@@ -22,8 +22,6 @@ public class playground {
 				0
 		);
 		Employee insterted = EmployeeService.getService().createEmployee(emp, add);
-	
-		System.out.println(insterted.equals(EmployeeService.getService().getEmployee(1)));
-		//System.out.println(EmployeeService.getService().deleteEmployee(1));
+		System.out.println(EmployeeService.getService().getAllEmployees());
 	}
 }

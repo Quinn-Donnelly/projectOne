@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.List;
+
 import com.revature.api.beans.Address;
 import com.revature.api.beans.Employee;
 import com.revature.api.data.EmployeeDOA;
@@ -32,5 +34,9 @@ public class EmployeeService {
 	
 	public Employee getEmployee(int id) {
 		return doa.getEmployee(id);
+	}
+	
+	public List<Employee> getAllEmployees() {
+		return doa.getAllEmployees();
 	}
 }
