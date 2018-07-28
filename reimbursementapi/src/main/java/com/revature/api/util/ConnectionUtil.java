@@ -28,7 +28,7 @@ public class ConnectionUtil {
                 try {
                         // load information from properties file
                         Properties props = new Properties();
-                        in = new FileInputStream("src/main/resources/connection.properties");
+                        in = new FileInputStream("D:\\quinn\\Documents\\reveture\\projectOne\\reimbursementapi\\src\\main\\resources\\connection.properties");
                         props.load(in);
 
                         // get the connection object
@@ -38,7 +38,7 @@ public class ConnectionUtil {
                         String endpoint = props.getProperty("jdbc.url");
                         String username = props.getProperty("jdbc.username");
                         String password = props.getProperty("jdbc.password");
-
+                        
                         con = DriverManager.getConnection(endpoint, username, password);
                         return con;
                 } catch (Exception e) {
