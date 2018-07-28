@@ -27,12 +27,24 @@ public class EmployeeOracle implements EmployeeDOA {
 			ps.setString(2, emp.getLastName());
 			ps.setString(3, emp.getEmail());
 			ps.setString(4, emp.getPassword());
-			ps.setInt(5, emp.getManagerID());
+			if (emp.getManagerID() == 0) {
+				ps.setNull(5, java.sql.Types.NULL);
+			} else {
+				ps.setInt(5, emp.getManagerID());
+			}
 			ps.setString(6, add.getCountry());
-			ps.setString(7, add.getState());
+			if (add.getStreet() == "") {
+				ps.setNull(7, java.sql.Types.NULL);
+			} else {
+				ps.setString(7, add.getState());
+			}
 			ps.setInt(8, add.getZipcode());
 			ps.setString(9, add.getStreet());
-			ps.setInt(10, add.getApartmentNumber());
+			if (add.getApartmentNumber() == 0) {
+				ps.setNull(10, java.sql.Types.NULL);
+			} else {
+				ps.setInt(10, add.getApartmentNumber());
+			}
 			ps.registerOutParameter(11, java.sql.Types.INTEGER);
 			ps.registerOutParameter(12, java.sql.Types.INTEGER);
 

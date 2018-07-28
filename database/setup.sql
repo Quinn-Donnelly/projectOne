@@ -10,7 +10,7 @@ create table employees (
     ),
     password varchar2(200) not null,
     manager_id number(10),
-    address_id number(10)
+    address_id number(10) not null
 );
 
 -- Creates the address table to store various addresses for the database
@@ -36,8 +36,7 @@ create table requests(
     resolution_note varchar2(200),
     amount binary_float not null
 );
---====================================== Setup =========================================================
-insert into employees values (0,'No Boss', '123', 'a@a.a', ' ', null, null);
+
 --================================ Foreign Key Constraints =============================================
 -- Manager ID's should reference their emplyee data
 alter table employees add constraint employees_FK_managerID foreign key (manager_id) references employees (employee_id);

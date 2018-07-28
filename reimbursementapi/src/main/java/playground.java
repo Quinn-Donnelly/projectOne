@@ -16,10 +16,10 @@ public class playground {
 		Address add = new Address(
 				0,
 				"USA",
-				"LA",
+				"",
 				70461,
 				"118 Kilgore Ct.",
-				-1
+				0
 		);
 		System.out.println(EmployeeService.getService().createEmployee(emp, add));
 	}
