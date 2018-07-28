@@ -73,3 +73,8 @@ begin
     insert into employees values (employee_id.nextval, first_name, last_name, email, password, manager_id, address_id.currval);
     new_employee_id := employee_id.currval;
 end;
+
+create or replace procedure add_request(requester number, title varchar2, description varchar2, amount binary_float) as
+begin
+    insert into requests values (request_id.nextval, requester, null, CURRENT_TIMESTAMP, null, 'NEW', title, description, amount);
+end;
