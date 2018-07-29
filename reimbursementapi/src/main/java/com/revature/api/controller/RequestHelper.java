@@ -24,7 +24,9 @@ public class RequestHelper {
 			if ("POST".equals(req.getMethod()))
 				employeeDelegate.post(req, res);
 			break;
-		default: break;
+		default: 
+			res.setStatus(304);
+			break;
 		}
 	}
 }
