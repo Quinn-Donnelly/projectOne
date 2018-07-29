@@ -21,6 +21,8 @@ public class RequestHelper {
 		case "employee":
 			if ("GET".equals(req.getMethod()))
 				employeeDelegate.get(req, res);
+			if ("POST".equals(req.getMethod()))
+				employeeDelegate.post(req, res);
 			break;
 		default: break;
 		}
