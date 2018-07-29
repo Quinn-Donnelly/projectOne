@@ -1,0 +1,42 @@
+/*
+ *
+ * LoginPage reducer
+ *
+ */
+
+import { fromJS } from 'immutable';
+import {
+  DEFAULT_ACTION,
+  ATTEMPT_LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+} from './constants';
+
+export const initialState = fromJS({
+  loading: false,
+  error: null,
+  user: null,
+});
+
+function loginPageReducer(state = initialState, action) {
+  switch (action.type) {
+    case DEFAULT_ACTION:
+      return state;
+    case ATTEMPT_LOGIN:
+      return state.set('loading', true);
+    case LOGIN_SUCCESS:
+      return state
+        .set('loading', false)
+        .set('err', null)
+        .set('user', action.payload);
+    case LOGIN_FAIL:
+      return state
+        .set('loading', false)
+        .set('user', null)
+        .set('err', action.msg);
+    default:
+      return state;
+  }
+}
+
+export default loginPageReducer;
