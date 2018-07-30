@@ -3,6 +3,7 @@ package com.revature.api.delegate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -33,9 +34,46 @@ public class EmployeeDelegate {
 	}
 	
 	public void get(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String[] requestedResourse = req.getRequestURI().substring(req.getContextPath().length()+1).split("/");
+		
+		// Valid get routes for the employee are on /employee and /employee/ID
+		if (requestedResourse.length > 2) {
+			res.sendError(400, "Requested resource not known to server");
+			return;
+		}
+		
+		// If get on /employee return all employees
+		if (requestedResourse.length == 1) {
+			List<Employee> list = null;
+			try {
+				list = EmployeeService.getService().getAllEmployees();
+			} catch (Exception e) {
+				res.sendError(500, "Unable to reach database");
+				log.error("Error in GET /EMPLOYEE unable to reach database: " + e.getMessage());
+				return;
+			}
+			
+			try {
+				JSONObject json = new JSONObject();
+				for (Employee emp : list) {
+					json.accumulate("employees", createEmpJson(emp));
+				}
+				
+				PrintWriter out = res.getWriter();
+				res.setContentType("application/json");
+				out.print(json);
+				out.close();
+				return;
+			} catch (Exception e) {
+				res.sendError(500, "Unable to write to response");
+				log.error("ERROR in GET /EMPLOYEE unable to make json array to resonse: " + e.getMessage());
+				return;
+			}	
+		}
+		
 		int id = 0;
 		try {
-			id = Integer.parseInt(req.getParameter("id"));
+			id = Integer.parseInt(requestedResourse[1]);
 		} catch (Exception e) {
 			res.sendError(400, "No id was in the request or was misformatted");
 			return;

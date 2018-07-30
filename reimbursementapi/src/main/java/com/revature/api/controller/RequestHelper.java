@@ -18,6 +18,7 @@ public class RequestHelper {
 		}
 		
 		switch(switchString) {
+		case "employees":
 		case "employee":
 			if ("GET".equals(req.getMethod()))
 				employeeDelegate.get(req, res);
