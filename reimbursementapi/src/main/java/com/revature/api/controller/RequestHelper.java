@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.revature.api.delegate.EmployeeDelegate;
+import com.revature.api.delegate.LoginDelegate;
 
 public class RequestHelper {
 	private EmployeeDelegate employeeDelegate = new EmployeeDelegate();
+	private LoginDelegate loginDelegate = new LoginDelegate();
 	public void process(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String switchString = req.getRequestURI().substring(req.getContextPath().length()+1);
 		
@@ -18,6 +20,14 @@ public class RequestHelper {
 		}
 		
 		switch(switchString) {
+		case "login":
+			if ("GET".equals(req.getMethod()) || "POST".equals(req.getMethod()))
+				loginDelegate.login(req, res);
+			break;
+		case "logout":
+			if ("GET".equals(req.getMethod()) || "POST".equals(req.getMethod()))
+				loginDelegate.logout(req, res);
+			break;
 		case "employees":
 		case "employee":
 			if ("GET".equals(req.getMethod()))

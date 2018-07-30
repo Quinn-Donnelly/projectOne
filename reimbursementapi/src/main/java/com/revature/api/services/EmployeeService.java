@@ -36,6 +36,10 @@ public class EmployeeService {
 		return doa.getEmployee(id);
 	}
 	
+	public Employee getEmployee(String username) {
+		return doa.getEmployee(username);
+	}
+	
 	public List<Employee> getAllEmployees() {
 		return doa.getAllEmployees();
 	}

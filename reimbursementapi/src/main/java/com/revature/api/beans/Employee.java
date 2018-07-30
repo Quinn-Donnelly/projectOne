@@ -2,6 +2,8 @@ package com.revature.api.beans;
 
 import java.io.Serializable;
 
+import org.json.JSONObject;
+
 public class Employee implements Serializable {
 
 	private static final long serialVersionUID = -368420383273189348L;
@@ -123,5 +125,16 @@ public class Employee implements Serializable {
 		if (managerID != other.managerID)
 			return false;
 		return true;
+	}
+	
+	public JSONObject createEmpJson() {
+		JSONObject json = new JSONObject();
+		json.put("employee_id", this.getEmployeeID());
+		json.put("first_name", this.getFirstName());
+		json.put("last_name", this.getLastName());
+		json.put("email", this.getEmail());
+		json.put("manager_id", this.getManagerID());
+		json.put("address_id", this.getAddress_id());
+		return json;
 	}
 }

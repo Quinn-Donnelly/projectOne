@@ -20,18 +20,7 @@ import com.revature.api.util.ConnectionUtil;
 
 public class EmployeeDelegate {
 	static EmployeeService empService = EmployeeService.getService();
-	private static final Logger log = Logger.getLogger(ConnectionUtil.class);
-	
-	private JSONObject createEmpJson(Employee emp) {
-		JSONObject json = new JSONObject();
-		json.put("employee_id", emp.getEmployeeID());
-		json.put("first_name", emp.getFirstName());
-		json.put("last_name", emp.getLastName());
-		json.put("email", emp.getEmail());
-		json.put("manager_id", emp.getManagerID());
-		json.put("address_id", emp.getAddress_id());
-		return json;
-	}
+	private static final Logger log = Logger.getLogger(EmployeeDelegate.class);
 	
 	public void get(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String[] requestedResourse = req.getRequestURI().substring(req.getContextPath().length()+1).split("/");
@@ -56,7 +45,7 @@ public class EmployeeDelegate {
 			try {
 				JSONObject json = new JSONObject();
 				for (Employee emp : list) {
-					json.accumulate("employees", createEmpJson(emp));
+					json.accumulate("employees", emp.createEmpJson());
 				}
 				
 				PrintWriter out = res.getWriter();
@@ -91,7 +80,7 @@ public class EmployeeDelegate {
 			
 			out = res.getWriter();
 			
-			JSONObject json = createEmpJson(emp);  
+			JSONObject json = emp.createEmpJson();  
 			res.setContentType("application/json");
 			
 			out.print(json);
@@ -155,7 +144,7 @@ public class EmployeeDelegate {
 		PrintWriter out = null;
 		try {
 			out = res.getWriter();
-			JSONObject json = createEmpJson(insertedEmp);  
+			JSONObject json = insertedEmp.createEmpJson();  
 			res.setContentType("application/json");
 			out.print(json);
 		} catch (Exception e) {
