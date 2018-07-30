@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.api.services;
 
 import java.util.List;
 
@@ -34,6 +34,10 @@ public class EmployeeService {
 	
 	public Employee getEmployee(int id) {
 		return doa.getEmployee(id);
+	}
+	
+	public Employee getEmployee(String username) {
+		return doa.getEmployee(username);
 	}
 	
 	public List<Employee> getAllEmployees() {

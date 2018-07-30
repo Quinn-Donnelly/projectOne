@@ -10,5 +10,6 @@ public interface EmployeeDOA {
 	public boolean deleteEmployee(int id);
 	public boolean updateEmployee(Employee emp);
 	public Employee getEmployee(int id);
+	public Employee getEmployee(String username);
 	public List<Employee> getAllEmployees();
 }
