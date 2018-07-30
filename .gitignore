@@ -1,4 +1,5 @@
 connection.properties
+ConnectionUtil.java
 
 *.java.hsp
 *.sonarj
@@ -16,7 +17,6 @@ derby.log
 spring-test/test-output/
 .gradle
 argfile*
-pom.xml
 activemq-data/
 
 classes/

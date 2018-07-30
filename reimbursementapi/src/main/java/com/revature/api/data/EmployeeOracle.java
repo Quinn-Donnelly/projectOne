@@ -134,4 +134,31 @@ public class EmployeeOracle implements EmployeeDOA {
 		return null;
 	}
 
+	@Override
+	public Employee getEmployee(String username) {
+		try {
+			String sql = "SELECT * FROM EMPLOYEES WHERE email = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, username);
+
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				return new Employee (
+					rs.getInt("EMPLOYEE_ID"), 
+					rs.getString("FIRST_NAME"), 
+					rs.getString("LAST_NAME"),
+					rs.getString("EMAIL"),
+					rs.getString("PASSWORD"),
+					rs.getInt("MANAGER_ID"),
+					rs.getInt("ADDRESS_ID")
+				);
+			}
+		} catch (SQLException e) {
+			log.error("Error in get employee (username) DOA: " + e.getMessage());
+		}
+
+		return null;
+	}
+
 }
