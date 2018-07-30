@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Button, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -24,34 +25,79 @@ import { attemptLogin } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class LoginPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: {
+       value: '',
+       hasEdited: false, 
+      },
+      hasSubmittedCurrent: false,
+    };
+  }
+
+  validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
+  getValidationStateUsername() {
+    if (this.state.hasSubmittedCurrent && !this.props.loginpage.loading && this.props.loginpage.err != null)
+      return 'error';
+
+    if (this.props.loginpage.user != null)
+      return 'success';
+
+    if (this.validateEmail(this.state.username.value))
+      return 'success';
+
+    if (this.state.username.hasEdited)
+      return 'warning';
+
+    return null;
+  }
+
+  handleChange = e => {
+    this.setState({ 
+      hasSubmittedCurrent: false,
+      [e.target.id]: {
+        value: e.target.value,
+        hasEdited: true,
+      }
+    });
+  }
+
   submit = e => {
     e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const username = this.state.username.value;
+    //const password = document.getElementById('password').value;
+    const password = "123";
     this.props.dispatch(attemptLogin(username, password));
+    this.setState({hasSubmittedCurrent: true});
   };
 
   render() {
     return (
       <div>
         <FormattedMessage {...messages.header} />
-        <div>
-          <form id="loginForm">
-            <input
+        <form onSubmit={this.submit}>
+          <FormGroup
+            validationState={this.getValidationStateUsername()}
+          >
+            <ControlLabel>Username</ControlLabel>
+            <FormControl
               type="text"
-              placeholder="Username"
-              name="username"
               id="username"
+              value={this.state.username.value}
+              placeholder="Enter Username"
+              onChange={this.handleChange}
+              title="This should be your work email address."
             />
-            <input
-              type="password"
-              placeholder="password"
-              name="password"
-              id="password"
-            />
-            <button onClick={this.submit}>Submit</button>
-          </form>
-        </div>
+            <FormControl.Feedback />
+            <Button type="submit">Submit</Button>
+          </FormGroup>
+        </form>
       </div>
     );
   }
