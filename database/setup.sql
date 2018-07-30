@@ -10,7 +10,7 @@ create table employees (
     ),
     password varchar2(200) not null,
     manager_id number(10),
-    address_id number(10)
+    address_id number(10) unique
 );
 
 -- Creates the address table to store various addresses for the database
@@ -41,20 +41,11 @@ create table requests(
 -- Manager ID's should reference their emplyee data
 alter table employees add constraint employees_FK_managerID foreign key (manager_id) references employees (employee_id);
 -- Address ID's should reference the address entry
-alter table employees add constraint employees_FK_addressID foreign key (address_id) references addresses (address_id);
+alter table addresses add constraint addresses_FK_addressID foreign key (address_id) references employees (address_id) ON DELETE CASCADE;
 -- Requester ID should reference the employee that made the request
 alter table requests add constraint requests_FK_requesterID foreign key (requester_id) references employees (employee_id);
 -- Resolver ID should reference the employee that closes the ticket if the ticket has been resolved
 alter table requests add constraint requests_FK_resolverID foreign key (resolver_id) references employees (employee_id);
-
---=========================================== Triggers =================================================
-create or replace trigger on_employee_delete
-before delete on employees
-for each row
-begin
-    delete from addresses where address_id = address_id;
-end;
-/
 
 --=========================================== Sequences ================================================
 
@@ -79,8 +70,8 @@ create sequence request_id
 
 create or replace procedure add_employee(first_name varchar2, last_name varchar2, email varchar2, password varchar2, manager_id number, country varchar2, state varchar2, zipcode number, street varchar2, apartment_number number, new_employee_id out number, new_address_id out number) as
 begin
-    insert into addresses values(address_id.nextval, country, state, zipcode, street, apartment_number);
-    insert into employees values (employee_id.nextval, first_name, last_name, email, password, manager_id, address_id.currval);
+    insert into employees values (employee_id.nextval, first_name, last_name, email, password, manager_id, address_id.nextval);
+    insert into addresses values(address_id.currval, country, state, zipcode, street, apartment_number);
     new_employee_id := employee_id.currval;
     new_address_id := address_id.currval;
 end;

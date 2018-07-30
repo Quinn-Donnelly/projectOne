@@ -21,7 +21,7 @@ public class RequestHelper {
 		
 		switch(switchString) {
 		case "login":
-			if ("GET".equals(req.getMethod()) || "POST".equals(req.getMethod()))
+			if ("POST".equals(req.getMethod()))
 				loginDelegate.login(req, res);
 			break;
 		case "logout":

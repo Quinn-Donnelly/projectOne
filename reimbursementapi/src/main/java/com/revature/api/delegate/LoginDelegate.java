@@ -2,6 +2,7 @@ package com.revature.api.delegate;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import com.revature.api.beans.Employee;
 import com.revature.api.services.EmployeeService;
@@ -19,8 +21,17 @@ public class LoginDelegate {
 	private static final Logger log = Logger.getLogger(LoginDelegate.class);
 	
 	public void login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
+		String username = null;
+		String password = null;
+		try {
+			String inputParams = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+			JSONObject inputJSON = new JSONObject(inputParams);
+			username = inputJSON.getString("username");
+			password = inputJSON.getString("password");
+		} catch (Exception e) {
+			resp.sendError(400, "input params should be sent via JSON");
+			return;
+		}
 		
 		if (username == null || password == null) {
 			resp.sendError(401, "username and password are required to login");
