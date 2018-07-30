@@ -38,7 +38,7 @@ public class EmployeeDelegate {
 		
 		// Valid get routes for the employee are on /employee and /employee/ID
 		if (requestedResourse.length > 2) {
-			res.sendError(400, "Requested resource not known to server");
+			res.sendError(404, "Requested resource not known to server");
 			return;
 		}
 		
@@ -161,6 +161,42 @@ public class EmployeeDelegate {
 		} catch (Exception e) {
 			res.sendError(500, "Unable to send newly created employee");
 			log.error("Error in /EMPOLYEE POST unable to write to response" + e.getMessage());
+			return;
+		}
+	}
+	
+	public void delete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String[] requestedResourse = req.getRequestURI().substring(req.getContextPath().length()+1).split("/");
+		
+		// Valid get routes for the employee are on /employee and /employee/ID
+		if (requestedResourse.length == 1) {
+			res.sendError(403, "Not allowed to delete entire collections");
+			return;
+		}
+		
+		if (requestedResourse.length > 2) {
+			res.sendError(404, "Requested resource not known to server");
+			return;
+		}
+		
+		int id = 0;
+		try {
+			id = Integer.parseInt(requestedResourse[1]);
+		} catch (Exception e) {
+			res.sendError(400, "The requested resoruce must be identified as an id (number)");
+			return;
+		}
+		
+		try {
+			boolean deleted = EmployeeService.getService().deleteEmployee(id);
+			if (!deleted) {
+				res.sendError(404, "Could not find resource in database");
+			}
+			
+			res.setStatus(200);
+			return;
+		} catch (Exception e) {
+			res.sendError(500, "Unable to remove entry from database");
 			return;
 		}
 	}

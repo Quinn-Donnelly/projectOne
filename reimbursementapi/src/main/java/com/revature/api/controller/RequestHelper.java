@@ -24,6 +24,8 @@ public class RequestHelper {
 				employeeDelegate.get(req, res);
 			if ("POST".equals(req.getMethod()))
 				employeeDelegate.post(req, res);
+			if ("DELETE".equals(req.getMethod()))
+				employeeDelegate.delete(req, res);
 			break;
 		default: 
 			res.setStatus(304);
