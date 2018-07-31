@@ -2,21 +2,20 @@ package com.revature.api.delegate;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.revature.api.beans.Address;
 import com.revature.api.beans.Employee;
 import com.revature.api.services.EmployeeService;
-import com.revature.api.util.ConnectionUtil;
 
 public class EmployeeDelegate {
 	static EmployeeService empService = EmployeeService.getService();
@@ -42,22 +41,27 @@ public class EmployeeDelegate {
 				return;
 			}
 			
+			PrintWriter out = res.getWriter();
 			try {
-				JSONObject json = new JSONObject();
-				for (Employee emp : list) {
-					json.accumulate("employees", emp.createEmpJson());
-				}
-				
-				PrintWriter out = res.getWriter();
+				ObjectMapper objMap = new ObjectMapper();
 				res.setContentType("application/json");
-				out.print(json);
-				out.close();
-				return;
+				
+				ObjectNode objNode = objMap.createObjectNode();
+				ArrayNode arrNode = objMap.createArrayNode();
+				for (Employee emp : list) {
+					arrNode.addPOJO(emp);
+				}
+				objNode.putPOJO("employees", arrNode);
+				
+				objMap.writeValue(out, objNode);
 			} catch (Exception e) {
 				res.sendError(500, "Unable to write to response");
 				log.error("ERROR in GET /EMPLOYEE unable to make json array to resonse: " + e.getMessage());
-				return;
-			}	
+			} finally {
+				if (out != null)
+					out.close();
+			}
+			return;
 		}
 		
 		int id = 0;
@@ -80,10 +84,9 @@ public class EmployeeDelegate {
 			
 			out = res.getWriter();
 			
-			JSONObject json = emp.createEmpJson();  
+			ObjectMapper objMapper = new ObjectMapper();;
 			res.setContentType("application/json");
-			
-			out.print(json);
+			objMapper.writeValue(out, emp);  			
 		} catch (Exception e) {
 			res.sendError(500);
 			// log here
@@ -96,35 +99,18 @@ public class EmployeeDelegate {
 	public void post(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		Employee emp = null;
 		Address addr = null;
+		ObjectMapper objMap = new ObjectMapper();
 		
 		// Parse the body for input info
 		try {
-			String inputParams = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-			JSONObject inputJSON = new JSONObject(inputParams);
-			emp = new Employee();
-			emp.setFirstName(inputJSON.getString("first_name"));
-			emp.setLastName(inputJSON.getString("last_name"));
-			emp.setEmail(inputJSON.getString("email"));
-			emp.setPassword(inputJSON.getString("password"));
-			
-			if (inputJSON.has("manager_id")) {
-				emp.setManagerID(inputJSON.getInt("manager_id"));
-			}
-			
-			addr = new Address();
-			addr.setCountry(inputJSON.getString("country"));
-			addr.setZipcode(inputJSON.getInt("zipcode"));
-			addr.setStreet(inputJSON.getString("street"));
-			
-			if (inputJSON.has("state")) {
-				addr.setState(inputJSON.getString("state"));
-			}
-			
-			if (inputJSON.has("apartment_number")) {
-				addr.setApartmentNumber(inputJSON.getInt("apartment_number"));
-			}
+			ObjectNode json = (ObjectNode) objMap.readTree(req.getReader());
+			ObjectNode address = (ObjectNode) json.get("address");
+			json.remove("address");
+			emp = objMap.treeToValue(json, Employee.class);
+			addr = objMap.treeToValue(address, Address.class);
 		} catch (Exception e) {
 			res.sendError(400, "Required information not present in body");
+			log.info(e);
 			return;
 		}
 		
@@ -144,13 +130,15 @@ public class EmployeeDelegate {
 		PrintWriter out = null;
 		try {
 			out = res.getWriter();
-			JSONObject json = insertedEmp.createEmpJson();  
 			res.setContentType("application/json");
-			out.print(json);
+			objMap.writeValue(out, insertedEmp);
 		} catch (Exception e) {
 			res.sendError(500, "Unable to send newly created employee");
 			log.error("Error in /EMPOLYEE POST unable to write to response" + e.getMessage());
-			return;
+		} finally {
+			if (out != null) {
+				out.close();
+			}
 		}
 	}
 	

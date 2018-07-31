@@ -1,3 +1,6 @@
+import java.io.File;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.api.beans.Address;
 import com.revature.api.beans.Employee;
 import com.revature.api.services.EmployeeService;
@@ -23,5 +26,12 @@ public class playground {
 		);
 		Employee insterted = EmployeeService.getService().createEmployee(emp, add);
 		System.out.println(EmployeeService.getService().getAllEmployees());
+		
+		ObjectMapper objMap = new ObjectMapper();
+		try {
+			objMap.writeValue(new File("./car.json"), emp);
+		} catch (Exception e) {
+			
+		}
 	}
 }

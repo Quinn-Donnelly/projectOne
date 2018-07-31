@@ -2,13 +2,17 @@ package com.revature.api.beans;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Address implements Serializable {
 	private static final long serialVersionUID = 7786508577155399832L;
+	@JsonProperty("address_id")
 	private int addressID;
 	private String country;
 	private String state;
 	private int zipcode;
 	private String street;
+	@JsonProperty("apartment_number")
 	private int apartmentNumber;
 	
 	public Address() {
