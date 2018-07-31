@@ -2,17 +2,27 @@ package com.revature.api.beans;
 
 import java.io.Serializable;
 
-import org.json.JSONObject;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 
 public class Employee implements Serializable {
 
 	private static final long serialVersionUID = -368420383273189348L;
+	@JsonProperty("employee_id")
 	private int employeeID;
+	@JsonProperty("first_name")
 	private String firstName;
+	@JsonProperty("last_name")
 	private String lastName;
+	@JsonProperty("email")
 	private String email;
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private transient String password;
+	@JsonProperty("manager_id")
 	private int managerID;
+	@JsonProperty("address_id")
 	private int address_id;
 	
 	
@@ -125,16 +135,5 @@ public class Employee implements Serializable {
 		if (managerID != other.managerID)
 			return false;
 		return true;
-	}
-	
-	public JSONObject createEmpJson() {
-		JSONObject json = new JSONObject();
-		json.put("employee_id", this.getEmployeeID());
-		json.put("first_name", this.getFirstName());
-		json.put("last_name", this.getLastName());
-		json.put("email", this.getEmail());
-		json.put("manager_id", this.getManagerID());
-		json.put("address_id", this.getAddress_id());
-		return json;
 	}
 }
