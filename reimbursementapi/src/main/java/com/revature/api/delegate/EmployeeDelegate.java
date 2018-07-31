@@ -18,7 +18,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import com.revature.api.beans.Address;
 import com.revature.api.beans.Employee;
+import com.revature.api.beans.Request;
 import com.revature.api.services.EmployeeService;
+import com.revature.api.services.RequestService;
 import com.revature.api.util.ConnectionUtil;
 
 public class EmployeeDelegate {
@@ -29,8 +31,52 @@ public class EmployeeDelegate {
 		String[] requestedResourse = req.getRequestURI().substring(req.getContextPath().length()+1).split("/");
 		
 		// Valid get routes for the employee are on /employee and /employee/ID
-		if (requestedResourse.length > 2) {
+		if (requestedResourse.length > 3) {
 			res.sendError(404, "Requested resource not known to server");
+			return;
+		}
+		
+		if (requestedResourse.length == 3) {
+			int id = 0;
+			try {
+				id = Integer.parseInt(requestedResourse[1]);
+			} catch (NumberFormatException e) {
+				res.sendError(400, "Must request a valid id for employee");
+				return;
+			}
+			
+			List<Request> list;
+			try {
+				list = RequestService.getService().getOwnedRequests(id);
+				if (list == null)
+					throw new Exception("Unable to fetch requests for specified user");
+			} catch (Exception e) {
+				res.sendError(500, "Unable to reach database");
+				log.error("Error in GET /EMPLOYEE/ID/REQUESTS unable to reach database: " + e.getMessage());
+				return;
+			}
+			
+			PrintWriter out = res.getWriter();
+			try {
+				ObjectMapper objMap = new ObjectMapper();
+				res.setContentType("application/json");
+				
+				ObjectNode objNode = objMap.createObjectNode();
+				ArrayNode arrNode = objMap.createArrayNode();
+				for (Request emp : list) {
+					arrNode.addPOJO(emp);
+				}
+				objNode.putPOJO("requests", arrNode);
+				
+				objMap.writeValue(out, objNode);
+			} catch (Exception e) {
+				res.sendError(500, "Unable to write to response");
+				log.error("ERROR in GET /EMPLOYEE/ID/REQUESTS unable to make json array to resonse: " + e.getMessage());
+			} finally {
+				if (out != null)
+					out.close();
+			}
+			
 			return;
 		}
 		
