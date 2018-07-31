@@ -86,9 +86,13 @@ begin
 end;
 /
 
-create or replace procedure add_request(requester number, title varchar2, description varchar2, amount binary_float) as
+create or replace procedure add_request(requester number, title varchar2, description varchar2, amount binary_float, new_id out number, time_of_request out timestamp) as
+    time timestamp;
 begin
-    insert into requests values (request_id.nextval, requester, null, CURRENT_TIMESTAMP, null, 'NEW', title, description, null, amount);
+    time := CURRENT_TIMESTAMP;
+    insert into requests values (request_id.nextval, requester, null, time, null, 'NEW', title, description, null, amount);
+    new_id := request_id.currval;
+    time_of_request := time;
 end;
 /
 

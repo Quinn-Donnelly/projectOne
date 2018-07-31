@@ -3,17 +3,25 @@ package com.revature.api.beans;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Request implements Serializable {
 	
 	private static final long serialVersionUID = 1354526190633936324L;
+	@JsonProperty("request_id")
 	private int requestID;
+	@JsonProperty("requester_id")
 	private int requesterID;
+	@JsonProperty("resolver_id")
 	private int resolverID;
+	@JsonProperty("date_of_request")
 	private Timestamp dateOfRequest;
+	@JsonProperty("date_of_resolution")
 	private Timestamp dateOfResolution;
 	private String status;
 	private String title;
 	private String description;
+	@JsonProperty("resolutionNote")
 	private String resolutionNote;
 	private float amount;
 	
