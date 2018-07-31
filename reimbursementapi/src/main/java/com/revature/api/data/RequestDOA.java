@@ -9,5 +9,5 @@ public interface RequestDOA {
 	public List<Request> getAllRequests();
 	public List<Request> getAllOwnedRequests();
 	public Request createRequest(Request req);
-	public boolean resolveRequest(int id, boolean approved);
+	public boolean resolveRequest(Request req, boolean approoved);
 }

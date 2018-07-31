@@ -5,11 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.revature.api.beans.Employee;
 import com.revature.api.beans.Request;
 import com.revature.api.util.ConnectionUtil;
 
@@ -50,7 +50,34 @@ public class RequestOracle implements RequestDOA {
 
 	@Override
 	public List<Request> getAllRequests() {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "SELECT * FROM REQUESTS";
+			PreparedStatement ps = con.prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			
+			List<Request> list = new ArrayList<Request>();
+			
+			while(rs.next()) {
+				list.add(new Request (
+					rs.getInt("REQUEST_ID"), 
+					rs.getInt("REQUESTER_ID"), 
+					rs.getInt("RESOLVER_ID"),
+					rs.getTimestamp("DATE_OF_REQUEST"),
+					rs.getTimestamp("DATE_OF_RESOLUTION"),
+					rs.getString("STATUS"),
+					rs.getString("TITLE"),
+					rs.getString("DESCRIPTION"),
+					rs.getString("RESOLUTION_NOTE"),
+					rs.getFloat("AMOUNT")
+				));
+			}
+			
+			return list;
+		} catch (SQLException e) {
+			log.error("Error in get all requests DOA: " + e.getMessage());
+		}
+
 		return null;
 	}
 
@@ -84,8 +111,22 @@ public class RequestOracle implements RequestDOA {
 	}
 
 	@Override
-	public boolean resolveRequest(int id, boolean approved) {
-		// TODO Auto-generated method stub
+	public boolean resolveRequest(Request req, boolean approved) {
+		try {
+			String sql = "CALL RESOLVE_REQUEST(?,?,?,?)";
+			CallableStatement ps = con.prepareCall(sql);
+			ps.setInt(1, req.getRequestID());
+			ps.setInt(2, req.getResolverID());
+			ps.setBoolean(3, approved);
+			ps.setString(4, req.getResolutionNote());
+
+			ps.execute();
+
+			return true;
+		} catch (SQLException e) {
+			log.error("Error in resolve request DOA: " + e.getMessage());
+		}
+
 		return false;
 	}
 
