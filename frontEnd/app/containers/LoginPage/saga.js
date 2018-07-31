@@ -21,7 +21,7 @@ export function* login(action) {
     });
     yield put(loginSuccess(data));
   } catch (err) {
-    yield put(loginFail("Can't reach resource"));
+    yield put(loginFail("Incorrect username / password combination"));
   }
 }
 

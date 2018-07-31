@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Button, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
+import AlertBox from 'components/AlertBox';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -33,7 +34,12 @@ export class LoginPage extends React.Component {
        value: '',
        hasEdited: false, 
       },
+      password: {
+        value: '',
+        hasEdited: false,
+      },
       hasSubmittedCurrent: false,
+      ignoreAlert: false,
     };
   }
 
@@ -43,16 +49,29 @@ export class LoginPage extends React.Component {
   }
 
   getValidationStateUsername() {
-    if (this.state.hasSubmittedCurrent && !this.props.loginpage.loading && this.props.loginpage.err != null)
+    if (this.state.hasSubmittedCurrent && !this.props.loginpage.loading && this.props.loginpage.error != null)
       return 'error';
 
-    if (this.props.loginpage.user != null)
+    if (this.state.hasSubmittedCurrent && this.props.loginpage.user != null)
       return 'success';
 
     if (this.validateEmail(this.state.username.value))
       return 'success';
 
     if (this.state.username.hasEdited)
+      return 'warning';
+
+    return null;
+  }
+
+  getValidationStatePassword() {
+    if (this.state.hasSubmittedCurrent && !this.props.loginpage.loading && this.props.loginpage.error != null)
+      return 'error';
+
+    if (this.state.hasSubmittedCurrent && this.props.loginpage.user != null)
+      return 'success';
+
+    if (this.state.password.hasEdited && this.state.password.value.trim() === '')
       return 'warning';
 
     return null;
@@ -68,16 +87,42 @@ export class LoginPage extends React.Component {
     });
   }
 
+  clearInput = e => {
+    this.setState({
+      'username': {
+        value: '',
+        hasEdited: false,
+      },
+      'password': {
+        value: '',
+        hasEdited: false,
+      },
+      hasSubmittedCurrent: false,
+      ignoreAlert: true,
+    });
+  }
+
+  dismissAlert = () => {
+    this.setState({
+      ignoreAlert: true,
+    });
+  }
+
   submit = e => {
     e.preventDefault();
     const username = this.state.username.value;
-    //const password = document.getElementById('password').value;
-    const password = "123";
+    const password = this.state.password.value;
     this.props.dispatch(attemptLogin(username, password));
-    this.setState({hasSubmittedCurrent: true});
+    this.setState({
+      hasSubmittedCurrent: true,
+      ignoreAlert: false,
+    });
   };
 
   render() {
+    const show = !this.state.ignoreAlert && this.state.hasSubmittedCurrent && 
+      !this.props.loginpage.loading && this.props.loginpage.error != null;
+    
     return (
       <div>
         <FormattedMessage {...messages.header} />
@@ -87,7 +132,8 @@ export class LoginPage extends React.Component {
           >
             <ControlLabel>Username</ControlLabel>
             <FormControl
-              type="text"
+              required
+              type="email"
               id="username"
               value={this.state.username.value}
               placeholder="Enter Username"
@@ -95,9 +141,32 @@ export class LoginPage extends React.Component {
               title="This should be your work email address."
             />
             <FormControl.Feedback />
+          </FormGroup>
+          <FormGroup
+            validationState={this.getValidationStatePassword()}
+          >
+            <ControlLabel>Password</ControlLabel>
+            <FormControl
+              required
+              type="password"
+              id="password"
+              value={this.state.password.value}
+              placeholder="Enter Password"
+              onChange={this.handleChange}
+              title="Your account's password"
+            />
+            <FormControl.Feedback />
             <Button type="submit">Submit</Button>
           </FormGroup>
         </form>
+
+        <AlertBox
+          title='Error Logging In'
+          message={this.props.loginpage.error}
+          show={show}
+          handleDismiss={this.dismissAlert}
+          takeAction={this.clearInput}
+        /> 
       </div>
     );
   }

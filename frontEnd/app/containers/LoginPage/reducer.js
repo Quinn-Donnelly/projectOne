@@ -27,13 +27,13 @@ function loginPageReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       return state
         .set('loading', false)
-        .set('err', null)
+        .set('error', null)
         .set('user', action.payload);
     case LOGIN_FAIL:
       return state
         .set('loading', false)
         .set('user', null)
-        .set('err', action.msg);
+        .set('error', action.msg);
     default:
       return state;
   }
