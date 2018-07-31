@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import TableView  from 'components/TableView/Loadable';
+import RequestsTable  from 'components/RequestsTable/Loadable';
+import { Button } from 'react-bootstrap';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -18,29 +19,22 @@ import makeSelectEmployeeHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import { getOwnedRequests } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class EmployeeHomePage extends React.Component {
-  render() {
-    const headers = ["First Name", "Last Name"];
-    const entries = [{
-      first_name: 'Quinn',
-      last_name: 'Donnelly',
-    },{
-      first_name: 'Justin',
-      last_name: 'Nunez',
-    }]
+  componentDidMount() {
+    this.props.dispatch(getOwnedRequests());
+  }
 
+  render() {
     return (
       <div>
-        <FormattedMessage {...messages.header} />
-        <TableView
-          columns={headers}
-          entries={entries}
-          onRowClick={(id) => console.log(id)}
-        />
+          <RequestsTable
+            requests={this.props.employeehomepage.requests}
+          />
       </div>
-    );
+    )
   }
 }
 

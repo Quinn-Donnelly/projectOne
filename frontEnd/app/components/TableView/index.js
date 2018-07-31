@@ -24,16 +24,24 @@ function TableView(props) {
 
   const tableRows = [];
   for (let r in props.entries) {
-    
+    let entry = props.entries[r];
     let rowData = [];
-    for (let entry in props.entries[r]) {
+
+    for (let key in props.keys) {
       rowData.push(
-        <td key={(uniqueKey++).toString()}>{props.entries[r][entry]}</td>
+        <td key={(uniqueKey++).toString()}>
+          { 
+            (entry[props.keys[key]]) ?
+                entry[props.keys[key]] :
+                "N/A"
+          }
+        </td>
       );
     }
 
     tableRows.push(
       <tr
+        className={entry.style}
         key={(uniqueKey++).toString()}
         id={r.toString()}
         onClick={() => (props.onRowClick) ? props.onRowClick(r.toString()) : {}}
@@ -45,9 +53,8 @@ function TableView(props) {
 
   return (
     <div>
-      <FormattedMessage {...messages.header} />
       <div>
-        <Table striped bordered condensed hover responsive>
+        <Table striped bordered condensed hover>
           <thead>
             <tr>
               {headerNodes}
