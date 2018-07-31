@@ -37,4 +37,8 @@ public class RequestService {
 	public boolean resolveRequest(Request req, boolean approoved) {
 		return doa.resolveRequest(req, approoved);
 	}
+	
+	public List<Request> getOwnedRequests(int id) {
+		return doa.getAllOwnedRequests(id);
+	}
 }

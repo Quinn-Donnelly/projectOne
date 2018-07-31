@@ -105,3 +105,10 @@ begin
     end if;
 end;
 /
+
+create or replace procedure get_owned_requests(employee number, requests out SYS_REFCURSOR) as
+begin
+    open requests for 
+        select * from requests where requestor_id = employee;
+end;
+/

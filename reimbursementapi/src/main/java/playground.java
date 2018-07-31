@@ -24,5 +24,6 @@ public class playground {
 		reqI.setResolverID(bossI.getEmployeeID());
 		reqI.setResolutionNote("Because I hate you");
 		System.out.println(RequestService.getService().resolveRequest(reqI, false));
+		System.out.println(RequestService.getService().getOwnedRequests(insterted.getEmployeeID()));
 	}
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import oracle.jdbc.OracleTypes;
 
 import com.revature.api.beans.Request;
 import com.revature.api.util.ConnectionUtil;
@@ -82,8 +83,39 @@ public class RequestOracle implements RequestDOA {
 	}
 
 	@Override
-	public List<Request> getAllOwnedRequests() {
-		// TODO Auto-generated method stub
+	public List<Request> getAllOwnedRequests(int id) {
+		try {
+			String sql = "CALL GET_OWNED_REQUESTS(?,?)";
+			CallableStatement ps = con.prepareCall(sql);
+			ps.setInt(1, id);
+			ps.registerOutParameter(2, OracleTypes.CURSOR);
+
+			ps.execute();
+
+			List<Request> list = new ArrayList<Request>();
+			
+			ResultSet rs = (ResultSet) ps.getObject(2);
+			
+			while(rs.next()) {
+				list.add(new Request (
+					rs.getInt("REQUEST_ID"), 
+					rs.getInt("REQUESTER_ID"), 
+					rs.getInt("RESOLVER_ID"),
+					rs.getTimestamp("DATE_OF_REQUEST"),
+					rs.getTimestamp("DATE_OF_RESOLUTION"),
+					rs.getString("STATUS"),
+					rs.getString("TITLE"),
+					rs.getString("DESCRIPTION"),
+					rs.getString("RESOLUTION_NOTE"),
+					rs.getFloat("AMOUNT")
+				));
+			}
+			
+			return list;
+		} catch (SQLException e) {
+			log.error("Error in get owned request DOA: " + e.getMessage());
+		}
+
 		return null;
 	}
 
