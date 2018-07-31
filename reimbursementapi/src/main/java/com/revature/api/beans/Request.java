@@ -21,7 +21,7 @@ public class Request implements Serializable {
 	private String status;
 	private String title;
 	private String description;
-	@JsonProperty("resolutionNote")
+	@JsonProperty("resolution_note")
 	private String resolutionNote;
 	private float amount;
 	
