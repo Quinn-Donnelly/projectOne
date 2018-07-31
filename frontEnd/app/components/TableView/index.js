@@ -13,23 +13,31 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 function TableView(props) {
+  let uniqueKey = 0;
+
   const headerNodes = [];
   for (let s in props.columns) {
     headerNodes.push(
-      <th>{props.columns[s]}</th>
+      <th key={(uniqueKey++).toString()}>{props.columns[s]}</th>
     );
   }
 
   const tableRows = [];
   for (let r in props.entries) {
+    
     let rowData = [];
     for (let entry in props.entries[r]) {
       rowData.push(
-        <td>{props.entries[r][entry]}</td>
+        <td key={(uniqueKey++).toString()}>{props.entries[r][entry]}</td>
       );
     }
+
     tableRows.push(
-      <tr>
+      <tr
+        key={(uniqueKey++).toString()}
+        id={r.toString()}
+        onClick={() => (props.onRowClick) ? props.onRowClick(r.toString()) : {}}
+      >
         {rowData}
       </tr>
     );
@@ -57,6 +65,7 @@ function TableView(props) {
 TableView.propTypes = {
   columns: PropTypes.array.isRequired,
   entries: PropTypes.array.isRequired,
+  onRowClick: PropTypes.func,
 };
 
 export default TableView;

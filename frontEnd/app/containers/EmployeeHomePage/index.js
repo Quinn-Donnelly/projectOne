@@ -37,6 +37,7 @@ export class EmployeeHomePage extends React.Component {
         <TableView
           columns={headers}
           entries={entries}
+          onRowClick={(id) => console.log(id)}
         />
       </div>
     );
