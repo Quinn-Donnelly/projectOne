@@ -79,6 +79,9 @@ class RequestForm extends React.Component {
     }
 
     this.props.submit(request);
+    this.setState({
+      hasSubmittedCurrent: true,
+    });
   }
 
   dismissAlert = () => {
@@ -113,12 +116,25 @@ class RequestForm extends React.Component {
     if (this.state.request.title.hasEdited && this.state.request.title.value.trim() === '')
       return 'warning';
 
+    if (this.props.success && this.state.hasSubmittedCurrent)
+      return 'success';
+
     return null;
   }
 
   getValidationStateAmount() {
     if (this.state.request.amount.hasEdited && this.state.request.amount.value === 0)
       return 'warning';
+    
+    if (this.props.success && this.state.hasSubmittedCurrent)
+      return 'success';
+
+    return null;
+  }
+
+  getValidationStateDescription() {    
+    if (this.props.success && this.state.hasSubmittedCurrent)
+      return 'success';
 
     return null;
   }
@@ -148,14 +164,18 @@ class RequestForm extends React.Component {
             />
             <FormControl.Feedback />
           </FormGroup>
-          <ControlLabel>Description</ControlLabel>
-          <FormControl
-            id="description"
-            componentClass="textarea"
-            placeholder="(Optional) Description of request"
-            onChange={this.handleChange}
-            value={this.state.request.description.value}
-          />
+          <FormGroup
+            validationState={this.getValidationStateDescription()}
+          >
+            <ControlLabel>Description</ControlLabel>
+            <FormControl
+              id="description"
+              componentClass="textarea"
+              placeholder="(Optional) Description of request"
+              onChange={this.handleChange}
+              value={this.state.request.description.value}
+            />
+          </FormGroup>
           <FormGroup
             validationState={this.getValidationStateAmount()}
           >

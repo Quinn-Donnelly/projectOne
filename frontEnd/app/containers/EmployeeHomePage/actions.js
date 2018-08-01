@@ -9,7 +9,9 @@ import {
   GET_OWNED_REQUESTS,
   RECEIVED_OWNED_REQUESTS,
   ERROR_FETCHING_OWNED_REQUESTS,
-  SUBMIT_REQUEST 
+  SUBMIT_REQUEST,
+  ERROR_SUBMITTING_REQUEST,
+  SUCCESS_SUBMITTING_REQUEST,
 } from './constants';
 
 export function defaultAction() {
@@ -45,4 +47,18 @@ export function submitRequest(title, description, amount) {
     description,
     amount,
   };
+}
+
+export function errorSubmittingRequest(err) {
+  return {
+    type: ERROR_SUBMITTING_REQUEST,
+    error: err,
+  };
+}
+
+export function successSubmittingRequest(id) {
+  return {
+    type: SUCCESS_SUBMITTING_REQUEST,
+    id,
+  }
 }

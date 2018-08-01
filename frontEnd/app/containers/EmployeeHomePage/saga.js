@@ -3,9 +3,9 @@ import request from 'utils/request';
 import { API_URL } from 'containers/App/constants';
 
 import { GET_OWNED_REQUESTS, SUBMIT_REQUEST } from './constants';
-import { storeOwnedRequests, errorFetchingRequests } from './actions';
+import { storeOwnedRequests, errorFetchingRequests, errorSubmittingRequest, successSubmittingRequest } from './actions';
 
-export function* getRequests(action) {
+export function* getRequests() {
   // TODO: Select username from store
   const id = 1;
   const requestURL = `${API_URL}/employee/${id}/requests`;
@@ -24,9 +24,6 @@ export function* getRequests(action) {
 
 export function* submitRequest(action) {
   // TODO: Select username from store
-  console.log('was');
-  
-
   const id = 1;
   const requestURL = `${API_URL}/request`;
 
@@ -41,11 +38,10 @@ export function* submitRequest(action) {
       }),
     });
 
+    yield put(successSubmittingRequest(data.request_id));
     yield call(getRequests);
-    console.log(data);
   } catch (err) {
-    // TODO: handle err
-    console.log(err)
+    yield put(errorSubmittingRequest(err));
   }
 }
 
