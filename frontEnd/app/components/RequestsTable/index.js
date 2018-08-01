@@ -6,6 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
@@ -15,14 +16,16 @@ import messages from './messages';
 function RequestsTable(props) {
   const headers = ["Title", "Description", "Date of Request", "Amount", "Status"];
   const keys = ["title", "description", "date_of_request", "amount", "status"]
-  
+
   const tableEntries = props.requests.map((value) => {
     const date = new Date(value.date_of_request).toLocaleDateString();
-    const formattedAmount = `$${value.amount.toFixed(2)}`;
-    value.date_of_request = date;
-    value.amount = formattedAmount;
-    value.style = (value.status === "DENIED") ? "" : "";
-    return value;
+    const formattedAmount = (value.amount && parseFloat(value.amount)) ? `$${value.amount.toFixed(2)}` : 'N/A';
+
+    return Object.assign({}, value, {
+      date_of_request: date,
+      amount: formattedAmount,
+      style: (value.status === "DENIED") ? "" : "",
+    });
   });
 
   if (!tableEntries || tableEntries.length === 0) {
@@ -41,7 +44,7 @@ function RequestsTable(props) {
           columns={headers}
           entries={tableEntries}
           keys={keys}
-          onRowClick={props.onRowClick}
+          onRowClick={(id) => props.onRowClick(id)}
         />
     </div>
   )

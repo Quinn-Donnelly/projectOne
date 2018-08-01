@@ -12,6 +12,8 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import RequestsTable  from 'components/RequestsTable/Loadable';
 import { Button } from 'react-bootstrap';
+import InformationModal from 'components/InformationModal';
+import { List } from 'immutable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,11 +22,40 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { getOwnedRequests } from './actions';
+import RequestView from 'components/RequestView';
 
 /* eslint-disable react/prefer-stateless-function */
 export class EmployeeHomePage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showModal: false,
+      selected: {
+        title: '',
+        id: null,
+      }
+    }
+  }
+  
   componentDidMount() {
     this.props.dispatch(getOwnedRequests());
+  }
+
+  hideModal = () => {
+    this.setState({
+      showModal: false,
+    });
+  }
+
+  showModal = (id) => {
+    this.setState({
+      showModal: true,
+      selected: {
+        title: '',
+        id,
+      },
+    });
   }
 
   render() {
@@ -32,7 +63,14 @@ export class EmployeeHomePage extends React.Component {
       <div>
           <RequestsTable
             requests={this.props.employeehomepage.requests}
+            onRowClick={this.showModal}
           />
+          <InformationModal
+            show={this.state.showModal}
+            onHide={this.hideModal}
+            title="Request"
+            bodyRender={() => RequestView((this.state.selected.id) ? this.props.employeehomepage.requests[this.state.selected.id] : {})}
+          /> 
       </div>
     )
   }

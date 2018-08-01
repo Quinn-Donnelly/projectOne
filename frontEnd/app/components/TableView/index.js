@@ -14,7 +14,7 @@ import messages from './messages';
 
 function TableView(props) {
   let uniqueKey = 0;
-
+  
   const headerNodes = [];
   for (let s in props.columns) {
     headerNodes.push(

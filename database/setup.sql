@@ -90,7 +90,7 @@ end;
 create or replace procedure resolve_request(request number, resolver number, is_approved number, note varchar2) as
 begin
     if is_approved > 0 then
-        update requests set resolver_id = resolver, status = 'APPROOVED', resolution_note = note, date_of_resolution = CURRENT_TIMESTAMP where request_id = request;
+        update requests set resolver_id = resolver, status = 'APPROVED', resolution_note = note, date_of_resolution = CURRENT_TIMESTAMP where request_id = request;
     else
         update requests set resolver_id = resolver, status = 'DENIED', resolution_note = note, date_of_resolution = CURRENT_TIMESTAMP where request_id = request;
     end if;

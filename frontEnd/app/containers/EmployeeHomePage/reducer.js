@@ -4,7 +4,7 @@
  *
  */
 
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import { DEFAULT_ACTION, RECEIVED_OWNED_REQUESTS } from './constants';
 
 export const initialState = fromJS({
