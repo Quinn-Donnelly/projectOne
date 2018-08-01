@@ -81,6 +81,7 @@ class RequestForm extends React.Component {
     this.props.submit(request);
     this.setState({
       hasSubmittedCurrent: true,
+      ignoreAlert: false,
     });
   }
 
@@ -113,6 +114,9 @@ class RequestForm extends React.Component {
   }
 
   getValidationStateTitle() {
+    if (this.state.hasSubmittedCurrent && this.props.error) 
+      return 'error';
+
     if (this.state.request.title.hasEdited && this.state.request.title.value.trim() === '')
       return 'warning';
 
@@ -123,6 +127,9 @@ class RequestForm extends React.Component {
   }
 
   getValidationStateAmount() {
+    if (this.state.hasSubmittedCurrent && this.props.error) 
+      return 'error';
+
     if (this.state.request.amount.hasEdited && this.state.request.amount.value === 0)
       return 'warning';
     
@@ -132,7 +139,10 @@ class RequestForm extends React.Component {
     return null;
   }
 
-  getValidationStateDescription() {    
+  getValidationStateDescription() {
+    if (this.state.hasSubmittedCurrent && this.props.error) 
+      return 'error';
+
     if (this.props.success && this.state.hasSubmittedCurrent)
       return 'success';
 
@@ -185,7 +195,9 @@ class RequestForm extends React.Component {
             <InputGroup>
               <InputGroup.Addon>$</InputGroup.Addon>
               <FormControl
-                type="number" 
+                required
+                type="number"
+                step={0.01}
                 id="amount"
                 title="The amount you are requesting for reimbursment"
                 onChange={this.handleChangeNumber}

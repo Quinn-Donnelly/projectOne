@@ -39,7 +39,7 @@ function employeeHomePageReducer(state = initialState, action) {
           });
     case ERROR_SUBMITTING_REQUEST:
       return state
-        .set('submitRequst', {
+        .set('submitRequest', {
           loading: false,
           error: action.error,
           id: 0,

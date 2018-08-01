@@ -40,8 +40,8 @@ export function* submitRequest(action) {
 
     yield put(successSubmittingRequest(data.request_id));
     yield call(getRequests);
-  } catch (err) {
-    yield put(errorSubmittingRequest(err));
+  } catch (err) {    
+    yield put(errorSubmittingRequest('Invalid Request'));
   }
 }
 

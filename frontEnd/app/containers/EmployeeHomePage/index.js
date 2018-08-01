@@ -79,7 +79,7 @@ export class EmployeeHomePage extends React.Component {
           <RequestForm 
             submit={this.submitForm}
             success={(this.props.employeehomepage.submitRequest.id) ? true : false}
-            error={null}
+            error={this.props.employeehomepage.submitRequest.error}
           />
       </div>
     )
