@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
-import { PageHeader, Well, Panel, Label } from 'react-bootstrap';
+import { PageHeader, Well, Panel, Label, Row, Col, Grid } from 'react-bootstrap';
 import TableView from 'components/TableView';
 import messages from './messages';
 
@@ -35,6 +35,14 @@ function RequestView(props) {
   const formattedAmount = (amount && parseFloat(amount)) ? `$${amount.toFixed(2)}` : 'N/A';
   let formattedStatus = 'PENDING';
 
+  const resolutionNote = (resolution_note) ? <Well>{resolution_note}</Well> : null;
+  const dateOfResolution = (date_of_resolution) ? 
+    (
+      <h4>
+        Resolution Note <small>{new Date(date_of_resolution).toLocaleDateString()}</small>
+      </h4>
+    ) : null;
+
   // Pending
   let requestStatus = 'default';
   if (status === 'DENIED') {
@@ -50,21 +58,33 @@ function RequestView(props) {
   return (
     <div>
       <PageHeader>{title}  <small>{dateOfRequest}</small></PageHeader>
-      <FlexDiv>
-        <Panel bsStyle={requestStatus}>
-          <Panel.Body>
-            {formattedAmount}
-          </Panel.Body>
-        </Panel>
-        <h3>
-          <Label bsStyle={requestStatus}>
-            {formattedStatus}
-          </Label>
-        </h3>
-      </FlexDiv>
-      <Well>
-        {description}
-      </Well>
+      <Grid fluid>
+        <Row>
+          <div>
+            <FlexDiv>
+              <Panel bsStyle={requestStatus}>
+                <Panel.Body>
+                  {formattedAmount}
+                </Panel.Body>
+              </Panel>
+              <h3>
+                <Label bsStyle={requestStatus}>
+                  {formattedStatus}
+                </Label>
+              </h3>
+            </FlexDiv>
+            <Well>
+              {description}
+            </Well>
+          </div>
+        </Row>
+        <Row>
+          <div>
+            {dateOfResolution}
+            {resolutionNote}
+          </div>
+        </Row>
+      </Grid>
     </div>
   );
 }
