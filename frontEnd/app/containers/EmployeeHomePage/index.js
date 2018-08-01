@@ -23,6 +23,7 @@ import saga from './saga';
 import messages from './messages';
 import { getOwnedRequests } from './actions';
 import RequestView from 'components/RequestView';
+import RequestForm from 'components/RequestForm/Loadable';
 
 /* eslint-disable react/prefer-stateless-function */
 export class EmployeeHomePage extends React.Component {
@@ -61,7 +62,7 @@ export class EmployeeHomePage extends React.Component {
   render() {
     return (
       <div>
-          <RequestsTable
+          {/* <RequestsTable
             requests={this.props.employeehomepage.requests}
             onRowClick={this.showModal}
           />
@@ -70,7 +71,10 @@ export class EmployeeHomePage extends React.Component {
             onHide={this.hideModal}
             title="Request"
             bodyRender={() => RequestView((this.state.selected.id) ? this.props.employeehomepage.requests[this.state.selected.id] : {})}
-          /> 
+          />  */}
+          <RequestForm 
+            error={null}
+          />
       </div>
     )
   }
