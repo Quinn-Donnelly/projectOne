@@ -4,7 +4,13 @@
  *
  */
 
-import { DEFAULT_ACTION, GET_OWNED_REQUESTS, RECEIVED_OWNED_REQUESTS, ERROR_FETCHING_OWNED_REQUESTS } from './constants';
+import { 
+  DEFAULT_ACTION,
+  GET_OWNED_REQUESTS,
+  RECEIVED_OWNED_REQUESTS,
+  ERROR_FETCHING_OWNED_REQUESTS,
+  SUBMIT_REQUEST 
+} from './constants';
 
 export function defaultAction() {
   return {
@@ -29,5 +35,14 @@ export function errorFetchingRequests(error) {
   return {
     type: ERROR_FETCHING_OWNED_REQUESTS,
     error,
+  };
+}
+
+export function submitRequest(title, description, amount) {
+  return {
+    type: SUBMIT_REQUEST,
+    title,
+    description,
+    amount,
   };
 }

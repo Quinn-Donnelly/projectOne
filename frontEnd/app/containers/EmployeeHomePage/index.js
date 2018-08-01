@@ -21,7 +21,7 @@ import makeSelectEmployeeHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getOwnedRequests } from './actions';
+import { getOwnedRequests, submitRequest } from './actions';
 import RequestView from 'components/RequestView';
 import RequestForm from 'components/RequestForm/Loadable';
 
@@ -43,6 +43,10 @@ export class EmployeeHomePage extends React.Component {
     this.props.dispatch(getOwnedRequests());
   }
 
+  submitForm = request => {
+    this.props.dispatch(submitRequest(request.title, request.description, request.amount));
+  }
+
   hideModal = () => {
     this.setState({
       showModal: false,
@@ -62,7 +66,7 @@ export class EmployeeHomePage extends React.Component {
   render() {
     return (
       <div>
-          {/* <RequestsTable
+          <RequestsTable
             requests={this.props.employeehomepage.requests}
             onRowClick={this.showModal}
           />
@@ -71,8 +75,9 @@ export class EmployeeHomePage extends React.Component {
             onHide={this.hideModal}
             title="Request"
             bodyRender={() => RequestView((this.state.selected.id) ? this.props.employeehomepage.requests[this.state.selected.id] : {})}
-          />  */}
+          /> 
           <RequestForm 
+            submit={this.submitForm}
             error={null}
           />
       </div>

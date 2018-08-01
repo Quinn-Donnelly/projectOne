@@ -70,6 +70,17 @@ class RequestForm extends React.Component {
     });
   }
 
+  submit = e => {
+    e.preventDefault();
+    const request = {
+      title: this.state.request.title.value,
+      description: this.state.request.description.value,
+      amount: this.state.request.amount.value,
+    }
+
+    this.props.submit(request);
+  }
+
   dismissAlert = () => {
     this.setState({
       ignoreAlert: true,
@@ -119,7 +130,7 @@ class RequestForm extends React.Component {
     return (
       <div>
         <FormattedMessage {...messages.header} />
-        <form>
+        <form onSubmit={this.submit}>
           <FormGroup
             validationState={this.getValidationStateTitle()}
           >
