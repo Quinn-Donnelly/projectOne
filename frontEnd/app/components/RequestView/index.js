@@ -10,14 +10,16 @@ import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
 import { PageHeader, Well, Panel, Label, Row, Col, Grid } from 'react-bootstrap';
-import TableView from 'components/TableView';
 import messages from './messages';
 
-const FlexDiv = styled.div`
+const NoMarginH3 = styled.h3`
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const CenterDiv = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-left: 50px;
-  margin-right: 50px;
+  justify-content: center;
 `;
 
 function RequestView(props) {
@@ -28,20 +30,17 @@ function RequestView(props) {
     description,
     date_of_request,
     date_of_resolution,
-    resolution_note
+    resolution_note,
+    resolver,
+    requester
   } = props;
 
   const dateOfRequest = (date_of_request) ? new Date(date_of_request).toLocaleDateString() : null;
   const formattedAmount = (amount && parseFloat(amount)) ? `$${amount.toFixed(2)}` : 'N/A';
   let formattedStatus = 'PENDING';
-
-  const resolutionNote = (resolution_note) ? <Well>{resolution_note}</Well> : null;
-  const dateOfResolution = (date_of_resolution) ? 
-    (
-      <h4>
-        Resolution Note <small>{new Date(date_of_resolution).toLocaleDateString()}</small>
-      </h4>
-    ) : null;
+  const resolverName = (resolver) ? (`${resolver.first_name} ${resolver.last_name}`) : null;
+  const requesterName = (requester) ? (`${requester.first_name} ${requester.last_name}`) : null;
+  const resolutionDate = (date_of_resolution) ? new Date(date_of_resolution).toLocaleDateString() : null;
 
   // Pending
   let requestStatus = 'default';
@@ -55,34 +54,78 @@ function RequestView(props) {
     requestStatus = 'success';
   }
 
+  const resolutionHeading = (date_of_resolution) ? 
+    (
+      <span>Resolution Note <small>{resolutionDate} - {resolverName}</small></span>
+    ) : null;
+
+  const resolutionNote = (resolution_note) ? 
+    <Panel bsStyle={requestStatus}>
+      <Panel.Heading>
+        {resolutionHeading}
+      </Panel.Heading>
+      <Panel.Body>{resolution_note}</Panel.Body>
+    </Panel> : null;
+
   return (
     <div>
-      <PageHeader>{title}  <small>{dateOfRequest}</small></PageHeader>
+      <PageHeader>{title}</PageHeader>
       <Grid fluid>
         <Row>
-          <div>
-            <FlexDiv>
-              <Panel bsStyle={requestStatus}>
-                <Panel.Body>
-                  {formattedAmount}
-                </Panel.Body>
-              </Panel>
-              <h3>
-                <Label bsStyle={requestStatus}>
-                  {formattedStatus}
-                </Label>
-              </h3>
-            </FlexDiv>
-            <Well>
-              {description}
-            </Well>
-          </div>
+          <Col sm={4}>
+            <Panel bsStyle={requestStatus}>
+              <Panel.Heading>
+                Amount Requested
+              </Panel.Heading>
+              <Panel.Body>
+                {formattedAmount}
+              </Panel.Body>
+            </Panel>
+          </Col>
+          <Col sm={4} smOffset={4}>
+            <CenterDiv>
+            <NoMarginH3>
+              <Label bsStyle={requestStatus}>
+                {formattedStatus}
+              </Label>
+            </NoMarginH3>
+            </CenterDiv>
+          </Col>
         </Row>
         <Row>
-          <div>
-            {dateOfResolution}
-            {resolutionNote}
-          </div>
+          <Col sm={4}>
+            <Panel>
+              <Panel.Heading>
+                Request From:
+              </Panel.Heading>
+              <Panel.Body>
+                {requesterName}
+              </Panel.Body>
+            </Panel>
+          </Col>
+          <Col sm={4} smOffset={4}>
+            <Panel>
+              <Panel.Heading>
+                Requested on:
+              </Panel.Heading>
+              <Panel.Body>
+                {dateOfRequest}
+              </Panel.Body>
+            </Panel>
+          </Col>
+        </Row>
+        <Row>
+          <Panel>
+            <Panel.Heading>
+              Request Description
+            </Panel.Heading>
+            <Panel.Body>
+              {description}
+            </Panel.Body>
+          </Panel>
+        </Row>
+        <Row>
+          {resolutionNote}
         </Row>
       </Grid>
     </div>
