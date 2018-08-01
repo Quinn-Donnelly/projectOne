@@ -2,7 +2,7 @@ package com.revature.api.delegate;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -45,10 +46,11 @@ public class EmployeeDelegate {
 				return;
 			}
 			
+			List<List<? extends Object>> databaseList;
 			List<Request> list;
 			try {
-				list = RequestService.getService().getOwnedRequests(id);
-				if (list == null)
+				databaseList = RequestService.getService().getOwnedRequests(id);
+				if (databaseList == null)
 					throw new Exception("Unable to fetch requests for specified user");
 			} catch (Exception e) {
 				res.sendError(500, "Unable to reach database");
@@ -63,9 +65,16 @@ public class EmployeeDelegate {
 				
 				ObjectNode objNode = objMap.createObjectNode();
 				ArrayNode arrNode = objMap.createArrayNode();
-				for (Request emp : list) {
-					arrNode.addPOJO(emp);
+				for (int i = 0; i < databaseList.get(0).size(); ++i) {
+					//ObjectNode requestObject = objMap.createObjectNode();
+					ObjectNode requestJson  = objMap.valueToTree(databaseList.get(0).get(i));
+					ObjectNode requesterJson = objMap.valueToTree(databaseList.get(1).get(i));
+					ObjectNode resolverJson = objMap.valueToTree(databaseList.get(2).get(i));
+					requestJson.set("requester", requesterJson);
+					requestJson.set("resolver", resolverJson);
+					arrNode.add(requestJson);
 				}
+				
 				objNode.putPOJO("requests", arrNode);
 				
 				objMap.writeValue(out, objNode);

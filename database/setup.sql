@@ -114,7 +114,7 @@ begin
             manager.first_name as resolver_first_name,
             manager.last_name as resolver_last_name,
             employee.first_name as requester_first_name,
-            employee.last_name as employee_last_name
+            employee.last_name as requester_last_name
         from (
         requests 
         left join employees manager on requests.resolver_id = manager.employee_id)

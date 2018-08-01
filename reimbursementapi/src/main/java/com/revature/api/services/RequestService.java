@@ -38,7 +38,7 @@ public class RequestService {
 		return doa.resolveRequest(req, approoved);
 	}
 	
-	public List<Request> getOwnedRequests(int id) {
+	public List<List<? extends Object>> getOwnedRequests(int id) {
 		return doa.getAllOwnedRequests(id);
 	}
 }

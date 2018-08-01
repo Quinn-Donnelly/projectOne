@@ -7,7 +7,7 @@ import { storeOwnedRequests, errorFetchingRequests } from './actions';
 
 export function* getRequests(action) {
   // Select username from store
-  const id = 2;
+  const id = 1;
   const requestURL = `${API_URL}/employee/${id}/requests`;
 
   try {

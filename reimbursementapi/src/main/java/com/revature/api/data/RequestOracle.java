@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import oracle.jdbc.OracleTypes;
 
+import com.revature.api.beans.Employee;
 import com.revature.api.beans.Request;
 import com.revature.api.util.ConnectionUtil;
 
@@ -83,7 +84,7 @@ public class RequestOracle implements RequestDOA {
 	}
 
 	@Override
-	public List<Request> getAllOwnedRequests(int id) {
+	public List<List<? extends Object>> getAllOwnedRequests(int id) {
 		try {
 			String sql = "CALL GET_OWNED_REQUESTS(?,?)";
 			CallableStatement ps = con.prepareCall(sql);
@@ -92,12 +93,13 @@ public class RequestOracle implements RequestDOA {
 
 			ps.execute();
 
-			List<Request> list = new ArrayList<Request>();
-			
+			List<Request> requestList = new ArrayList<Request>();
+			List<Employee> employeeList = new ArrayList<Employee>();
+			List<Employee> managerList = new ArrayList<Employee>();
 			ResultSet rs = (ResultSet) ps.getObject(2);
 			
 			while(rs.next()) {
-				list.add(new Request (
+				requestList.add(new Request (
 					rs.getInt("REQUEST_ID"), 
 					rs.getInt("REQUESTER_ID"), 
 					rs.getInt("RESOLVER_ID"),
@@ -109,9 +111,32 @@ public class RequestOracle implements RequestDOA {
 					rs.getString("RESOLUTION_NOTE"),
 					rs.getFloat("AMOUNT")
 				));
+				employeeList.add(new Employee(
+					rs.getInt("REQUESTER_ID"),
+					rs.getString("REQUESTER_FIRST_NAME"),
+					rs.getString("REQUESTER_LAST_NAME"),
+					"",
+					"",
+					0,
+					0
+				));
+				managerList.add(new Employee(
+						rs.getInt("RESOLVER_ID"),
+						rs.getString("RESOLVER_FIRST_NAME"),
+						rs.getString("RESOLVER_LAST_NAME"),
+						"",
+						"",
+						0,
+						0
+					));
 			}
 			
-			return list;
+			List<List<?>> finalList = new ArrayList<>(); 
+			finalList.add(requestList);
+			finalList.add(employeeList);
+			finalList.add(managerList);
+			
+			return finalList;
 		} catch (SQLException e) {
 			log.error("Error in get owned request DOA: " + e.getMessage());
 		}
