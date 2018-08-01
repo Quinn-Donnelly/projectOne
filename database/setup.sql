@@ -100,6 +100,25 @@ end;
 create or replace procedure get_owned_requests(employee number, requests out SYS_REFCURSOR) as
 begin
     open requests for 
-        select * from requests where requester_id = employee;
+        select 
+            request_id,
+            requester_id,
+            resolver_id,
+            date_of_request, 
+            date_of_resolution,
+            status,
+            title,
+            description,
+            amount,
+            resolution_note,
+            manager.first_name as resolver_first_name,
+            manager.last_name as resolver_last_name,
+            employee.first_name as requester_first_name,
+            employee.last_name as employee_last_name
+        from (
+        requests 
+        left join employees manager on requests.resolver_id = manager.employee_id)
+        left join employees employee on requests.requester_id = employee.employee_id
+        where requester_id = employee;
 end;
 /
