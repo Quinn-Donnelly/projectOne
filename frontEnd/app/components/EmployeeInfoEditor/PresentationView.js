@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Col, Panel, Row } from 'react-bootstrap';
+import { Grid, Col, Panel, Row, Glyphicon, Button, Clearfix } from 'react-bootstrap';
 import AddressView from './AdressView';
 
 export default function PresentatoinView(props) {
@@ -8,7 +8,9 @@ export default function PresentatoinView(props) {
           <Grid fluid>
             <Row>
                 <Col sm={8} smOffset={2} style={{ padding: '0px' }}>
-                    <Panel style={{ marginBottom: '0px' }}><Panel.Heading>Employee Information</Panel.Heading></Panel>
+                <Clearfix>
+                    <Panel style={{ marginBottom: '0px' }}><Panel.Heading>Employee Information <Button><Glyphicon glyph="pencil"/></Button></Panel.Heading></Panel>
+                </Clearfix>
                 </Col>
             </Row>
             <Row>
