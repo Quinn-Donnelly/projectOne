@@ -24,6 +24,7 @@ import messages from './messages';
 import { getOwnedRequests, submitRequest } from './actions';
 import RequestView from 'components/RequestView';
 import RequestForm from 'components/RequestForm/Loadable';
+import EmployeeInfoEditor from 'components/EmployeeInfoEditor';
 
 /* eslint-disable react/prefer-stateless-function */
 export class EmployeeHomePage extends React.Component {
@@ -66,7 +67,7 @@ export class EmployeeHomePage extends React.Component {
   render() {
     return (
       <div>
-          <RequestsTable
+          {/* <RequestsTable
             requests={this.props.employeehomepage.requests}
             onRowClick={this.showModal}
           />
@@ -80,7 +81,8 @@ export class EmployeeHomePage extends React.Component {
             submit={this.submitForm}
             success={(this.props.employeehomepage.submitRequest.id) ? true : false}
             error={this.props.employeehomepage.submitRequest.error}
-          />
+          /> */}
+          <EmployeeInfoEditor />
       </div>
     )
   }
