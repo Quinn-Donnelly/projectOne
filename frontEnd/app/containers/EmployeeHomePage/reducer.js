@@ -6,6 +6,7 @@
 
 import { fromJS, List } from 'immutable';
 import { DEFAULT_ACTION, RECEIVED_OWNED_REQUESTS, ERROR_SUBMITTING_REQUEST, SUBMIT_REQUEST, SUCCESS_SUBMITTING_REQUEST } from './constants';
+import { LOGOUT } from '../LoginPage/constants';
 
 export const initialState = fromJS({
   requests: [],
@@ -44,6 +45,14 @@ function employeeHomePageReducer(state = initialState, action) {
           error: action.error,
           id: 0,
         });
+    case LOGOUT:
+        return state
+          .set('requests', [])
+          .set('submitRequest', {
+            loading: false,
+            error: null,
+            id: 0,
+          })
     default:
       return state;
   }

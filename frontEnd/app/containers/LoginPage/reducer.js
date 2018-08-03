@@ -10,6 +10,7 @@ import {
   ATTEMPT_LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
 } from './constants';
 
 export const initialState = fromJS({
@@ -34,6 +35,11 @@ function loginPageReducer(state = initialState, action) {
         .set('loading', false)
         .set('user', null)
         .set('error', action.msg);
+    case LOGOUT:
+      return state
+        .set('loading', false)
+        .set('error', null)
+        .set('user', null);
     default:
       return state;
   }

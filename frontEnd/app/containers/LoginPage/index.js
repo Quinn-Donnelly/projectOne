@@ -163,7 +163,7 @@ export class LoginPage extends React.Component {
                         title="Your account's password"
                       />
                       <FormControl.Feedback />
-                      <Button bsStyle="info" type="submit">Submit</Button>
+                      <Button bsStyle="info" type="submit" style={{ marginTop: '10px' }}>Submit</Button>
                     </FormGroup>
                   </form>
 

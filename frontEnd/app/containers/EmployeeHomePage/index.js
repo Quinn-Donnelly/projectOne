@@ -69,10 +69,10 @@ export class EmployeeHomePage extends React.Component {
       <div>
         <Grid fluid>
           <Row>
-            <Col sm={4} smOffset={2}>
+            <Col sm={6} md={4} mdOffset={2}>
               <EmployeeInfoEditor />
             </Col>
-            <Col sm={4}>
+            <Col sm={6} md={4}>
               <RequestForm 
                 submit={this.submitForm}
                 success={(this.props.employeehomepage.submitRequest.id) ? true : false}
@@ -81,7 +81,7 @@ export class EmployeeHomePage extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col sm={8} smOffset={2}>
+            <Col sm={12} md={8} mdOffset={2}>
               <RequestsTable
                 requests={this.props.employeehomepage.requests}
                 onRowClick={this.showModal}

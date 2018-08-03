@@ -57,6 +57,7 @@ injectGlobal`
     background-color: #1d2227eb;
     min-height: 100%;
     min-width: 100%;
+    padding-top: 70px;
   }
 
   p,
