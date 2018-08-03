@@ -90,10 +90,10 @@ class EditingView extends React.Component {
 												</Row>
 												<Row>
 													<Col sm={6}>
-														<Button bsSize="lg" block onClick={this.props.cancel}>Cancel</Button>
+														<Button bsSize="md" block onClick={this.props.cancel}>Cancel</Button>
 													</Col>
 													<Col sm={6}>
-														<Button bsStyle="success" bsSize="lg" block>Submit</Button>
+														<Button bsStyle="success" bsSize="md" block>Save</Button>
 													</Col>
 												</Row>
 											</Grid>

@@ -1,6 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import request from 'utils/request';
 import { API_URL } from 'containers/App/constants';
+import { push } from 'react-router-redux';
 
 import { ATTEMPT_LOGIN } from './constants';
 import { loginFail, loginSuccess } from './actions';
@@ -20,6 +21,7 @@ export function* login(action) {
       }),
     });
     yield put(loginSuccess(data));
+    yield put(push('/employeeHome'));
   } catch (err) {
     yield put(loginFail("Incorrect username / password combination"));
   }

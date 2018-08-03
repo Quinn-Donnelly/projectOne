@@ -9,7 +9,14 @@ export default function PresentatoinView(props) {
             <Row>
                 <Col sm={12} style={{ padding: '0px' }}>
                 <Clearfix>
-                    <Panel style={{ marginBottom: '0px' }}><Panel.Heading>Employee Information <Button bsStyle="info" onClick={props.edit}><Glyphicon glyph="pencil"/></Button></Panel.Heading></Panel>
+                    <Panel style={{ marginBottom: '0px' }}>
+                      <Panel.Heading style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        Employee Information 
+                        <Button bsStyle="info" onClick={props.edit}>
+                          <Glyphicon glyph="pencil"/>
+                        </Button>
+                      </Panel.Heading>
+                    </Panel>
                 </Clearfix>
                 </Col>
             </Row>

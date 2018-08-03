@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Button, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Button, FormControl, FormGroup, ControlLabel, Panel, Grid, Row, Col } from 'react-bootstrap';
 import AlertBox from 'components/AlertBox';
 
 import injectSaga from 'utils/injectSaga';
@@ -125,48 +125,60 @@ export class LoginPage extends React.Component {
     
     return (
       <div>
-        <FormattedMessage {...messages.header} />
-        <form onSubmit={this.submit}>
-          <FormGroup
-            validationState={this.getValidationStateUsername()}
-          >
-            <ControlLabel>Username</ControlLabel>
-            <FormControl
-              required
-              type="email"
-              id="username"
-              value={this.state.username.value}
-              placeholder="Enter Username"
-              onChange={this.handleChange}
-              title="This should be your work email address."
-            />
-            <FormControl.Feedback />
-          </FormGroup>
-          <FormGroup
-            validationState={this.getValidationStatePassword()}
-          >
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              required
-              type="password"
-              id="password"
-              value={this.state.password.value}
-              placeholder="Enter Password"
-              onChange={this.handleChange}
-              title="Your account's password"
-            />
-            <FormControl.Feedback />
-            <Button type="submit">Submit</Button>
-          </FormGroup>
-        </form>
+        <Grid>
+          <Row>
+            <Col sm={8} smOffset={2}>
+              <Panel>
+                <Panel.Heading>
+                  Login
+                </Panel.Heading>
+                <Panel.Body>
+                  <form onSubmit={this.submit}>
+                    <FormGroup
+                      validationState={this.getValidationStateUsername()}
+                    >
+                      <ControlLabel>Username</ControlLabel>
+                      <FormControl
+                        required
+                        type="email"
+                        id="username"
+                        value={this.state.username.value}
+                        placeholder="Enter Username"
+                        onChange={this.handleChange}
+                        title="This should be your work email address."
+                      />
+                      <FormControl.Feedback />
+                    </FormGroup>
+                    <FormGroup
+                      validationState={this.getValidationStatePassword()}
+                    >
+                      <ControlLabel>Password</ControlLabel>
+                      <FormControl
+                        required
+                        type="password"
+                        id="password"
+                        value={this.state.password.value}
+                        placeholder="Enter Password"
+                        onChange={this.handleChange}
+                        title="Your account's password"
+                      />
+                      <FormControl.Feedback />
+                      <Button bsStyle="info" type="submit">Submit</Button>
+                    </FormGroup>
+                  </form>
 
-        <AlertBox
-          title='Error Logging In'
-          message={this.props.loginpage.error}
-          show={show}
-          handleDismiss={this.dismissAlert}
-          takeAction={this.clearInput}
-        /> 
+                  <AlertBox
+                    title='Error Logging In'
+                    message={this.props.loginpage.error}
+                    show={show}
+                    handleDismiss={this.dismissAlert}
+                    takeAction={this.clearInput}
+                  />
+                </Panel.Body>
+              </Panel>
+            </Col>
+          </Row>
+        </Grid> 
       </div>
     );
   }
