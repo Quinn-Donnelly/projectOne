@@ -9,7 +9,7 @@ import React from 'react';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
-import { FormGroup, ControlLabel, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, InputGroup, Button, Panel, Grid, Row, Col } from 'react-bootstrap';
 import AlertBox from 'components/AlertBox';
 import messages from './messages';
 
@@ -153,67 +153,86 @@ class RequestForm extends React.Component {
     const showError = !this.state.ignoreAlert && this.state.hasSubmittedCurrent && 
       this.props.error != null;
 
+    let styleFeedbackForPanel = null;
+    if (this.props.success && this.state.hasSubmittedCurrent)
+      styleFeedbackForPanel = 'success';
+    else if (showError)
+      styleFeedbackForPanel = 'danger';
+    
+
     return (
       <div>
-        <FormattedMessage {...messages.header} />
-        <form onSubmit={this.submit}>
-          <FormGroup
-            validationState={this.getValidationStateTitle()}
-          >
-            <ControlLabel>
-              Title
-            </ControlLabel>
-            <FormControl
-              required
-              type="text"
-              id="title"
-              value={this.state.request.title.value}
-              placeholder="Enter a title"
-              onChange={this.handleChange}
-              title="This should be a short message to explain what the request is."
-            />
-            <FormControl.Feedback />
-          </FormGroup>
-          <FormGroup
-            validationState={this.getValidationStateDescription()}
-          >
-            <ControlLabel>Description</ControlLabel>
-            <FormControl
-              id="description"
-              componentClass="textarea"
-              placeholder="(Optional) Description of request"
-              onChange={this.handleChange}
-              value={this.state.request.description.value}
-            />
-          </FormGroup>
-          <FormGroup
-            validationState={this.getValidationStateAmount()}
-          >
-            <ControlLabel>
-              Amount
-            </ControlLabel>
-            <InputGroup>
-              <InputGroup.Addon>$</InputGroup.Addon>
-              <FormControl
-                required
-                type="number"
-                step={0.01}
-                id="amount"
-                title="The amount you are requesting for reimbursment"
-                onChange={this.handleChangeNumber}
-              />
-            </InputGroup>
-          </FormGroup>
-          <Button type="submit">Submit</Button>
-        </form>
-        
-        <AlertBox
-          title='Error Creating Request'
-          message={this.props.error}
-          show={showError}
-          handleDismiss={this.dismissAlert}
-          takeAction={this.clearInput}
-        /> 
+        <Grid fluid>
+          <Row>
+            <Col sm={12}>
+              <Panel bsStyle={styleFeedbackForPanel}>
+                <Panel.Heading>
+                  Request Form
+                </Panel.Heading>
+                <Panel.Body>
+                  <form onSubmit={this.submit}>
+                    <FormGroup
+                      validationState={this.getValidationStateTitle()}
+                    >
+                      <ControlLabel>
+                        Title
+                      </ControlLabel>
+                      <FormControl
+                        required
+                        type="text"
+                        id="title"
+                        value={this.state.request.title.value}
+                        placeholder="Enter a title"
+                        onChange={this.handleChange}
+                        title="This should be a short message to explain what the request is."
+                      />
+                      <FormControl.Feedback />
+                    </FormGroup>
+                    <FormGroup
+                      validationState={this.getValidationStateDescription()}
+                    >
+                      <ControlLabel>Description</ControlLabel>
+                      <FormControl
+                        id="description"
+                        componentClass="textarea"
+                        placeholder="(Optional) Description of request"
+                        onChange={this.handleChange}
+                        value={this.state.request.description.value}
+                      />
+                    </FormGroup>
+                    <FormGroup
+                      validationState={this.getValidationStateAmount()}
+                    >
+                      <ControlLabel>
+                        Amount
+                      </ControlLabel>
+                      <InputGroup>
+                        <InputGroup.Addon>$</InputGroup.Addon>
+                        <FormControl
+                          required
+                          type="number"
+                          step={0.01}
+                          id="amount"
+                          title="The amount you are requesting for reimbursment"
+                          onChange={this.handleChangeNumber}
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <Button type="submit">Submit</Button>
+                  </form>
+                  
+                  <AlertBox
+                    title='Error Creating Request'
+                    message={this.props.error}
+                    show={showError}
+                    handleDismiss={this.dismissAlert}
+                    takeAction={this.clearInput}
+                  /> 
+                </Panel.Body>
+              </Panel>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }

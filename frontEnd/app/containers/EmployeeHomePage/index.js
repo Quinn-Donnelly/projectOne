@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import RequestsTable  from 'components/RequestsTable/Loadable';
-import { Button } from 'react-bootstrap';
+import { Button, Grid, Row, Col } from 'react-bootstrap';
 import InformationModal from 'components/InformationModal';
 import { List } from 'immutable';
 
@@ -67,22 +67,34 @@ export class EmployeeHomePage extends React.Component {
   render() {
     return (
       <div>
-          {/* <RequestsTable
-            requests={this.props.employeehomepage.requests}
-            onRowClick={this.showModal}
-          />
-          <InformationModal
-            show={this.state.showModal}
-            onHide={this.hideModal}
-            title="Request"
-            bodyRender={() => RequestView((this.state.selected.id) ? this.props.employeehomepage.requests[this.state.selected.id] : {})}
-          /> 
-          <RequestForm 
-            submit={this.submitForm}
-            success={(this.props.employeehomepage.submitRequest.id) ? true : false}
-            error={this.props.employeehomepage.submitRequest.error}
-          /> */}
-          <EmployeeInfoEditor />
+        <Grid fluid>
+          <Row>
+            <Col sm={4} smOffset={2}>
+              <EmployeeInfoEditor />
+            </Col>
+            <Col sm={4}>
+              <RequestForm 
+                submit={this.submitForm}
+                success={(this.props.employeehomepage.submitRequest.id) ? true : false}
+                error={this.props.employeehomepage.submitRequest.error}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={8} smOffset={2}>
+              <RequestsTable
+                requests={this.props.employeehomepage.requests}
+                onRowClick={this.showModal}
+              />
+              <InformationModal
+                show={this.state.showModal}
+                onHide={this.hideModal}
+                title="Request"
+                bodyRender={() => RequestView((this.state.selected.id) ? this.props.employeehomepage.requests[this.state.selected.id] : {})}
+              /> 
+            </Col>
+          </Row>
+        </Grid>
       </div>
     )
   }

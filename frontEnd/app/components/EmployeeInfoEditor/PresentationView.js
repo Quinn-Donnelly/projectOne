@@ -7,14 +7,14 @@ export default function PresentatoinView(props) {
         <div>
           <Grid fluid>
             <Row>
-                <Col sm={8} smOffset={2} style={{ padding: '0px' }}>
+                <Col sm={12} style={{ padding: '0px' }}>
                 <Clearfix>
-                    <Panel style={{ marginBottom: '0px' }}><Panel.Heading>Employee Information <Button><Glyphicon glyph="pencil"/></Button></Panel.Heading></Panel>
+                    <Panel style={{ marginBottom: '0px' }}><Panel.Heading>Employee Information <Button onClick={props.edit}><Glyphicon glyph="pencil"/></Button></Panel.Heading></Panel>
                 </Clearfix>
                 </Col>
             </Row>
             <Row>
-              <Col sm={4} smOffset={2}>
+              <Col sm={6}>
                 <Row sm={4}>
                   <Panel style={{ marginBottom: '0px'}}>
                     <Panel.Heading>
@@ -25,7 +25,7 @@ export default function PresentatoinView(props) {
                     </Panel.Body>
                   </Panel>
                 </Row>
-                <Row sm={4}>
+                <Row sm={6}>
                   <Panel>
                     <Panel.Heading>
                       Email
@@ -36,7 +36,7 @@ export default function PresentatoinView(props) {
                   </Panel>
                 </Row>
               </Col>
-              <Col sm={4}>
+              <Col sm={6}>
                 <Row>
                   <Col>
                     <AddressView

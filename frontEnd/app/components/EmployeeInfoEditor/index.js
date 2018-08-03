@@ -13,6 +13,7 @@ import { Row, Col, Panel, Grid, Clearfix } from 'react-bootstrap';
 import messages from './messages';
 import AdressView from './AdressView';
 import PresentatoinView from './PresentationView';
+import EditingView from './EditingView';
 
 /* eslint-disable react/prefer-stateless-function */
 class EmployeeInfoEditor extends React.Component {
@@ -36,15 +37,27 @@ class EmployeeInfoEditor extends React.Component {
     };
   }
 
+  changePanel = e => {
+    this.setState({
+      allowEditing: !this.state.allowEditing,
+    });
+  }
+
   render() {
     let viewPane = null;
     
     if (this.state.allowEditing) {
-      // pane to allow editing
+      viewPane = (
+        <EditingView 
+          {...this.state.information}
+          cancel={this.changePanel}
+        />
+      );
     } else {
       viewPane = (
         <PresentatoinView 
           {...this.state.information}
+          edit={this.changePanel}
         />
       );
     }

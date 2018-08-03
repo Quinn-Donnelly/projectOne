@@ -18,7 +18,7 @@ import com.revature.api.util.ConnectionUtil;
 public class RequestOracle implements RequestDOA {
 
 	private static final Connection con = ConnectionUtil.getConnection();
-	private static final Logger log = Logger.getLogger(ConnectionUtil.class);
+	private static final Logger log = Logger.getLogger(RequestOracle.class);
 
 	@Override
 	public Request getRequest(int id) {
