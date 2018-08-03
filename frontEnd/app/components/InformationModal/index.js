@@ -31,7 +31,7 @@ class InformationModal extends React.PureComponent {
           {modalBody}
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.onHide}>Close</Button>
+          <Button bsStyle="info" onClick={this.props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
     );

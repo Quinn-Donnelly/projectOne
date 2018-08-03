@@ -213,12 +213,13 @@ class RequestForm extends React.Component {
                           type="number"
                           step={0.01}
                           id="amount"
+                          placeholder="$0.00"
                           title="The amount you are requesting for reimbursment"
                           onChange={this.handleChangeNumber}
                         />
                       </InputGroup>
                     </FormGroup>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" bsStyle="info">Submit</Button>
                   </form>
                   
                   <AlertBox
