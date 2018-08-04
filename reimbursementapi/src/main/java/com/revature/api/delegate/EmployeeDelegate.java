@@ -238,4 +238,53 @@ public class EmployeeDelegate {
 			return;
 		}
 	}
+	
+	public void put(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		String[] requestedResourse = req.getRequestURI().substring(req.getContextPath().length()+1).split("/");
+		
+		// Valid get routes for the employee are on /employee/:id
+		if (requestedResourse.length != 2) {
+			res.sendError(404, "Only allowed to update single employee");
+			return;
+		}
+		
+		int id = 0;
+		try {
+			id = Integer.parseInt(requestedResourse[1]);
+		} catch (Exception e) {
+			res.sendError(400, "Must be a valid id");
+			return;
+		}
+		
+		Employee old = null;
+		try {
+			old = EmployeeService.getService().getEmployee(id);
+		} catch (Exception e) {
+			res.sendError(404, "Unable to find Employee");
+			return;
+		}
+		
+		ObjectMapper objMap = new ObjectMapper();
+		Employee setUpdates = null;
+		try {			
+			setUpdates = objMap.readValue(req.getReader(), Employee.class);
+		} catch (Exception e) {
+			res.sendError(400, "Misformatted JSON");
+			return;
+		}
+		
+		setUpdates.setEmployeeID(old.getEmployeeID());
+		
+		try {
+			if (!EmployeeService.getService().updateEmployee(setUpdates)) {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			res.sendError(500, "Unable to update database");
+			log.error("Unable to update employee: " + e.getMessage());
+			return;
+		}
+		
+		res.setStatus(200);
+	}
 }

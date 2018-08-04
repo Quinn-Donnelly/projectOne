@@ -75,8 +75,22 @@ public class EmployeeOracle implements EmployeeDOA {
 	}
 
 	public boolean updateEmployee(Employee emp) {
-		// TODO: Implement Updates
+		try {
+			String sql = "UPDATE EMPLOYEES SET first_name = ?, last_name = ?, email = ? WHERE employee_id = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, emp.getFirstName());
+			ps.setString(2, emp.getLastName());
+			ps.setString(3, emp.getEmail());
+			ps.setInt(4, emp.getEmployeeID());
+
+			if (ps.executeUpdate() > 0)
+				return true;
+		} catch (SQLException e) {
+			log.error("Error in update employee DOA: " + e.getMessage());
+		}
+
 		return false;
+
 	}
 
 	public Employee getEmployee(int id) {

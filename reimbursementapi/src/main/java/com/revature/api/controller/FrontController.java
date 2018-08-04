@@ -35,10 +35,16 @@ public class FrontController extends DefaultServlet {
 		doGet(req,resp);
 	}
 	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req,resp);
+	}
+	
 	private void setAccessControlHeaders(HttpServletResponse resp) {
 	      resp.setHeader("Access-Control-Allow-Origin", "*");
 	      resp.setHeader("Access-Control-Allow-Methods", "GET");
 	      resp.setHeader("Access-Control-Allow-Methods", "POST");
 	      resp.setHeader("Access-Control-Allow-Methods", "DELETE");
+	      resp.setHeader("Access-Control-Allow-Methods", "PUT");
 	  }
 }
