@@ -95,6 +95,7 @@ export function* updateEmployee(action) {
 
   const id = currentUser.employee_id;
   const requestURL = `${API_URL}/employee/${id}`;
+  console.log('going')
 
   try {
     const data = yield call(request, requestURL, {

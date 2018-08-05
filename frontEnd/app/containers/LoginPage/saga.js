@@ -22,7 +22,11 @@ export function* login(action) {
       }),
     });
     yield put(loginSuccess(data));
-    yield put(push('/employeeHome'));
+    if (data.manager_id === 0) {
+      yield put(push('/managerHome'));  
+    } else {
+      yield put(push('/employeeHome'));
+    }
   } catch (err) {
     console.log(err);
     yield put(loginFail("Incorrect username / password combination"));

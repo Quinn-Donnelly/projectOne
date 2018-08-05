@@ -19,15 +19,17 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
 import EmployeeHomePage from 'containers/EmployeeHomePage/Loadable';
 import NavBar from 'containers/NavigationBar/Loadable';
+import ManagerHomePage from 'containers/ManagerHomePage/Loadable';
 
 export default function App() {
   return (
     <div>
       <NavBar />
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={LoginPage} />
         <Route path="/login" component={LoginPage} />
         <Route path='/employeeHome' component={EmployeeHomePage} />
+        <Route path='/managerHome' component={ManagerHomePage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

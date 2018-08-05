@@ -54,18 +54,27 @@ function RequestView(props) {
     requestStatus = 'success';
   }
 
-  const resolutionHeading = (date_of_resolution) ? 
-    (
-      <span>Resolution Note <small>{resolutionDate} - {resolverName}</small></span>
-    ) : null;
+  let resolutionHeading = null;
 
-  const resolutionNote = (resolution_note) ? 
+  let resolutionNote = null;
+
+  if (date_of_resolution !== null && date_of_resolution !== 0) {
+    // Have a resolution
+    resolutionHeading = <span>Resolution Note <small>{resolutionDate} - {resolverName}</small></span>
+
+    resolutionNote = (resolution_note) ? 
     <Panel bsStyle={requestStatus}>
       <Panel.Heading>
         {resolutionHeading}
       </Panel.Heading>
       <Panel.Body>{resolution_note}</Panel.Body>
-    </Panel> : null;
+    </Panel> : 
+    <Panel bsStyle={requestStatus}>
+      <Panel.Heading>
+        {resolutionHeading}
+      </Panel.Heading>
+    </Panel>;
+  }
 
   return (
     <div>

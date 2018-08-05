@@ -153,7 +153,7 @@ class RequestForm extends React.Component {
     const showError = !this.state.ignoreAlert && this.state.hasSubmittedCurrent && 
       this.props.error != null;
 
-    let styleFeedbackForPanel = null;
+    let styleFeedbackForPanel = 'default';
     if (this.props.success && this.state.hasSubmittedCurrent)
       styleFeedbackForPanel = 'success';
     else if (showError)

@@ -129,7 +129,7 @@ public class RequestDelegate {
 			
 			try {
 				if(reqService.resolveRequest(request, approoved))
-					res.setStatus(200);
+					res.setStatus(204);
 				return;
 			} catch (Exception e) {
 				log.error("Error in /REQUEST/ID/RESOLVE unable to resolve " + e.getMessage());
