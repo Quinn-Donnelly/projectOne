@@ -43,4 +43,8 @@ public class EmployeeService {
 	public List<Employee> getAllEmployees() {
 		return doa.getAllEmployees();
 	}
+	
+	public boolean updateEmployee(Employee emp) {
+		return doa.updateEmployee(emp);
+	}
 }

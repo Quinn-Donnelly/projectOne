@@ -1,6 +1,7 @@
 /* eslint consistent-return:0 */
 
 const express = require('express');
+const proxy = require('express-http-proxy');
 const logger = require('./logger');
 
 const argv = require('./argv');
@@ -13,6 +14,22 @@ const ngrok =
     : false;
 const { resolve } = require('path');
 const app = express();
+
+app.use(function name(req, res, next) {
+  console.log(req.path);
+  next();
+})
+app.use('/api', proxy('http://localhost:8080/reimbursementapi'));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Methods", "GET");
+  res.header("Access-Control-Allow-Methods", "POST");
+  res.header("Access-Control-Allow-Methods", "DELETE");
+  res.header("Access-Control-Allow-Methods", "PUT");
+  next();
+});
+
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);

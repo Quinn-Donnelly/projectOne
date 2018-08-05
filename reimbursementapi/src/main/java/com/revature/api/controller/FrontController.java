@@ -15,6 +15,8 @@ public class FrontController extends DefaultServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		setAccessControlHeaders(resp);
+		
 		if(req.getRequestURI().substring(req.getContextPath().length())
 				.startsWith("/static/")) {
 			super.doGet(req, resp);
@@ -33,4 +35,16 @@ public class FrontController extends DefaultServlet {
 		doGet(req,resp);
 	}
 	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req,resp);
+	}
+	
+	private void setAccessControlHeaders(HttpServletResponse resp) {
+	      resp.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+	      resp.setHeader("Access-Control-Allow-Methods", "GET");
+	      resp.setHeader("Access-Control-Allow-Methods", "POST");
+	      resp.setHeader("Access-Control-Allow-Methods", "DELETE");
+	      resp.setHeader("Access-Control-Allow-Methods", "PUT");
+	  }
 }

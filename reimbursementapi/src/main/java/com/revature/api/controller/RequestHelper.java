@@ -27,7 +27,7 @@ public class RequestHelper {
 		
 		switch(switchString) {
 		case "login":
-			if ("GET".equals(req.getMethod()) || "POST".equals(req.getMethod()))
+			if ("POST".equals(req.getMethod()))
 				loginDelegate.login(req, res);
 			break;
 		case "logout":
@@ -49,6 +49,8 @@ public class RequestHelper {
 				employeeDelegate.post(req, res);
 			if ("DELETE".equals(req.getMethod()))
 				employeeDelegate.delete(req, res);
+			if ("PUT".equals(req.getMethod()))
+				employeeDelegate.put(req, res);
 			break;
 		default: 
 			res.setStatus(304);

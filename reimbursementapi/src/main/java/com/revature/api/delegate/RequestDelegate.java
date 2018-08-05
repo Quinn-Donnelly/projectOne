@@ -152,6 +152,11 @@ public class RequestDelegate {
 			return;
 		}
 		
+		if (request.getAmount() <= 0) {
+			res.sendError(400, "Amounts for requests must be greater than zero.");
+			return;
+		}
+		
 		Request insertedReq = null;
 		try {
 			insertedReq = reqService.makeRequest(request);
