@@ -103,11 +103,11 @@ export function* updateEmployee(action) {
       body: JSON.stringify({
         first_name: action.payload.firstName,
         last_name: action.payload.lastName,
-        email: action.payload.email,
+        email: action.payload.email
       }),
     });
 
-    yield call(getEmployeeInformation);
+    yield put(storeEmployeeInformation(data));
   } catch(e) {
     console.log(e); 
   }

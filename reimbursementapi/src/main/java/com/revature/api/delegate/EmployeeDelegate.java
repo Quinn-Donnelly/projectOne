@@ -286,5 +286,16 @@ public class EmployeeDelegate {
 		}
 		
 		res.setStatus(200);
+		Employee updated = null;
+		try {
+			updated = EmployeeService.getService().getEmployee(id);
+		} catch (Exception e) {
+			res.sendError(404, "Unable to find Employee");
+			return;
+		}
+		
+		ObjectMapper objMapper = new ObjectMapper();;
+		res.setContentType("application/json");
+		objMapper.writeValue(res.getWriter(), updated);
 	}
 }

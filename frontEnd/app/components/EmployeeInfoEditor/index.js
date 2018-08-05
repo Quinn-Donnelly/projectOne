@@ -52,7 +52,7 @@ class EmployeeInfoEditor extends React.Component {
         <EditingView 
           {...information}
           cancel={this.changePanel}
-          save={saveEmployeeInformation}
+          save={(info) => { this.changePanel(); saveEmployeeInformation(info); }}
         />
       );
     } else {
