@@ -21,7 +21,7 @@ export default function PresentatoinView(props) {
                 </Col>
             </Row>
             <Row>
-              <Col sm={6}>
+              <Col sm={12}>
                 <Row sm={4}>
                   <Panel style={{ marginBottom: '0px'}}>
                     <Panel.Heading>
@@ -43,7 +43,7 @@ export default function PresentatoinView(props) {
                   </Panel>
                 </Row>
               </Col>
-              <Col sm={6}>
+              {/* <Col sm={6}>
                 <Row>
                   <Col>
                     <AddressView
@@ -51,7 +51,7 @@ export default function PresentatoinView(props) {
                     />
                   </Col>
                 </Row>
-              </Col>
+              </Col> */}
             </Row>
           </Grid>
         </div>
