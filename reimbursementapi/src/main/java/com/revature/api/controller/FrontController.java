@@ -41,7 +41,7 @@ public class FrontController extends DefaultServlet {
 	}
 	
 	private void setAccessControlHeaders(HttpServletResponse resp) {
-	      resp.setHeader("Access-Control-Allow-Origin", "*");
+	      resp.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 	      resp.setHeader("Access-Control-Allow-Methods", "GET");
 	      resp.setHeader("Access-Control-Allow-Methods", "POST");
 	      resp.setHeader("Access-Control-Allow-Methods", "DELETE");

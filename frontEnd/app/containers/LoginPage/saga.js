@@ -15,6 +15,7 @@ export function* login(action) {
     const data = yield call(request, requestURL, {
       method: 'POST',
       'Content-Type': 'application/json',
+      mode: 'cors',
       body: JSON.stringify({
         username: action.username,
         password: action.password,
@@ -23,6 +24,7 @@ export function* login(action) {
     yield put(loginSuccess(data));
     yield put(push('/employeeHome'));
   } catch (err) {
+    console.log(err);
     yield put(loginFail("Incorrect username / password combination"));
   }
 }

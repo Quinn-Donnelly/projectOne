@@ -21,7 +21,7 @@ import makeSelectEmployeeHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getOwnedRequests, submitRequest } from './actions';
+import { getOwnedRequests, submitRequest, getEmployeeInformation, updateEmployee } from './actions';
 import RequestView from 'components/RequestView';
 import RequestForm from 'components/RequestForm/Loadable';
 import EmployeeInfoEditor from 'components/EmployeeInfoEditor';
@@ -42,6 +42,7 @@ export class EmployeeHomePage extends React.Component {
   
   componentDidMount() {
     this.props.dispatch(getOwnedRequests());
+    this.props.dispatch(getEmployeeInformation());
   }
 
   submitForm = request => {
@@ -64,13 +65,20 @@ export class EmployeeHomePage extends React.Component {
     });
   }
 
+  saveInformation = (information) => {
+    this.props.dispatch(updateEmployee(information));
+  }
+
   render() {
     return (
       <div>
         <Grid fluid>
           <Row>
             <Col sm={6} md={4} mdOffset={2}>
-              <EmployeeInfoEditor />
+              <EmployeeInfoEditor 
+                saveEmployeeInformation={this.saveInformation}
+                {...this.props.employeehomepage.employeeInformation}
+              />
             </Col>
             <Col sm={6} md={4}>
               <RequestForm 

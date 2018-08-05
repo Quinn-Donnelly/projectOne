@@ -12,6 +12,9 @@ import {
   SUBMIT_REQUEST,
   ERROR_SUBMITTING_REQUEST,
   SUCCESS_SUBMITTING_REQUEST,
+  GET_EMPLOYEE_INFORMATION,
+  RECEIVED_EMPLOYEE_INFORMATION,
+  UPDATE_EMPLOYEE,
 } from './constants';
 
 export function defaultAction() {
@@ -61,4 +64,24 @@ export function successSubmittingRequest(id) {
     type: SUCCESS_SUBMITTING_REQUEST,
     id,
   }
+}
+
+export function getEmployeeInformation() {
+  return {
+    type: GET_EMPLOYEE_INFORMATION,
+  };
+}
+
+export function storeEmployeeInformation(payload) {
+  return {
+    type: RECEIVED_EMPLOYEE_INFORMATION,
+    payload,
+  };
+}
+
+export function updateEmployee(payload) {
+  return {
+    type: UPDATE_EMPLOYEE,
+    payload,
+  };
 }

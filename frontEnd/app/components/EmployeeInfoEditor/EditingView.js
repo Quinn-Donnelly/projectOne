@@ -12,7 +12,7 @@ class EditingView extends React.Component {
 					hasEdited: false,
 				},
 				lastName: {
-					value: '',
+					value: (props.lastName) || '',
 					hasEdited: false,
 				},
 				email: {
@@ -29,6 +29,14 @@ class EditingView extends React.Component {
 					value: e.target.value,
 					hasEdited: true,
 				}
+			});
+		}
+
+		save = () => {
+			this.props.save({
+				firstName: this.state.firstName.value,
+				lastName: this.state.lastName.value,
+				email: this.state.email.value,
 			});
 		}
 
@@ -93,7 +101,7 @@ class EditingView extends React.Component {
 														<Button block onClick={this.props.cancel}>Cancel</Button>
 													</Col>
 													<Col sm={6}>
-														<Button bsStyle="success" block>Save</Button>
+														<Button onClick={this.save} bsStyle="success" block>Save</Button>
 													</Col>
 												</Row>
 											</Grid>

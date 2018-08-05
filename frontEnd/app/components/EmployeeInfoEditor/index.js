@@ -22,9 +22,9 @@ class EmployeeInfoEditor extends React.Component {
 
     this.state = {
       information: {
-        firstName: 'Quinn',
-        lastName: 'Donnelly',
-        email: 'quinndonnelly22@gmail.com',
+        firstName: props.firstName || '',
+        lastName: props.lastName || '',
+        email: props.email || '',
         address: {
           country: 'USA',
           street: '118 Kilgore Ct.',
@@ -45,18 +45,20 @@ class EmployeeInfoEditor extends React.Component {
 
   render() {
     let viewPane = null;
+    const {saveEmployeeInformation, ...information} = this.props;
     
     if (this.state.allowEditing) {
       viewPane = (
         <EditingView 
-          {...this.state.information}
+          {...information}
           cancel={this.changePanel}
+          save={saveEmployeeInformation}
         />
       );
     } else {
       viewPane = (
         <PresentatoinView 
-          {...this.state.information}
+          {...information}
           edit={this.changePanel}
         />
       );
