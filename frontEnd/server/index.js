@@ -15,10 +15,6 @@ const ngrok =
 const { resolve } = require('path');
 const app = express();
 
-app.use(function name(req, res, next) {
-  console.log(req.path);
-  next();
-})
 app.use('/api', proxy('http://localhost:8080/reimbursementapi'));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

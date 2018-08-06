@@ -12,9 +12,9 @@ export default function PresentatoinView(props) {
                     <Panel style={{ marginBottom: '0px' }}>
                       <Panel.Heading style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         Employee Information 
-                        <Button bsStyle="info" onClick={props.edit}>
+                        {(props.hideButton) ? null : <Button bsStyle="info" onClick={props.edit}>
                           <Glyphicon glyph="pencil"/>
-                        </Button>
+                        </Button>}
                       </Panel.Heading>
                     </Panel>
                 </Clearfix>
