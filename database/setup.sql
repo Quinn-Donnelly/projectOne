@@ -18,7 +18,7 @@ create table employees (
 create table addresses (
     address_id number(10) primary key,
     country varchar2(200) not null,
-    state varchar2(10),
+    state varchar2(200),
     zipcode number(10) not null,
     street varchar2 (200) not null,
     apartment_number number(10)

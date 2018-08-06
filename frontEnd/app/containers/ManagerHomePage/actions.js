@@ -12,6 +12,8 @@ import {
   RESOLVE_REQUEST,
   GET_ALL_EMPLOYEES,
   REVEIVED_ALL_EMPLOYEES,
+  ADD_USER,
+  DELETE_USER,
 } from './constants';
 
 export function defaultAction() {
@@ -62,3 +64,17 @@ export function storeAllEmployees(payload) {
     payload,
   };
 }
+
+export function addUser(payload) {
+  return {
+    type: ADD_USER,
+    payload,
+  };
+} 
+
+export function deleteUser(id) {
+  return {
+    type: DELETE_USER,
+    id,
+  };
+} 

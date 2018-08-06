@@ -23,7 +23,8 @@ import makeSelectManagerHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getAllRequests, resolveRequest, getAllEmployees } from './actions';
+import { getAllRequests, resolveRequest, getAllEmployees, addUser, deleteUser } from './actions';
+import EmployeeInformationForm from 'components/EmployeeInformationForm/Loadable';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ManagerHomePage extends React.Component {
@@ -33,6 +34,7 @@ export class ManagerHomePage extends React.Component {
     this.state = {
       currentTab: "1",
       showModal: false,
+      showAddUser: false,
       selected: {
         title: '',
         id: null,
@@ -48,6 +50,7 @@ export class ManagerHomePage extends React.Component {
   hideModal = () => {
     this.setState({
       showModal: false,
+      showAddUser: false,
     });
   }
 
@@ -58,6 +61,12 @@ export class ManagerHomePage extends React.Component {
         title: '',
         id,
       },
+    });
+  }
+
+  showAddUser = e => {
+    this.setState({
+      showAddUser: true,
     });
   }
 
@@ -76,6 +85,16 @@ export class ManagerHomePage extends React.Component {
   denyCurrent = des => {
     const id = this.props.managerhomepage.requests[this.state.selected.id].request_id;
     this.props.dispatch(resolveRequest(id, false, des));
+    this.hideModal();
+  }
+
+  addEmployee = (info) => {
+    this.props.dispatch(addUser(info));
+    this.hideModal();
+  }
+
+  deleteSelectedEmployee = () => {
+    this.props.dispatch(deleteUser(this.props.managerhomepage.employees[this.state.selected.id].employee_id));
     this.hideModal();
   }
 
@@ -109,7 +128,7 @@ export class ManagerHomePage extends React.Component {
                   <Panel style={{ marginBottom: '0px' }}>
                     <Panel.Heading style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       Employee List 
-                      <Button bsStyle="info" onClick={() => console.log('click')}>
+                      <Button bsStyle="info" onClick={this.showAddUser}>
                         <Glyphicon glyph="plus"/>
                       </Button>
                     </Panel.Heading>
@@ -126,21 +145,23 @@ export class ManagerHomePage extends React.Component {
       );
 
       modalView = () => {
-        if (this.state.selected.id === null)
+        if (!this.state.selected.id)
           return null;
           
         const employee = this.props.managerhomepage.employees[this.state.selected.id]
         return (
-          <PresentationView
-            firstName = {employee.first_name}
-            lastName = {employee.last_name}
-            email = {employee.email}
-            edit={() => console.log('add')}
-          />
+          <div>
+            <PresentationView
+              firstName = {employee.first_name}
+              lastName = {employee.last_name}
+              email = {employee.email}
+              hideButton
+              edit={() => console.log('add')}
+            />
+            <Button bsStyle="danger" block onClick={this.deleteSelectedEmployee}>Delete Employee</Button>
+          </div>
         );
       };
-
-      console.log(modalView)
     }
 
     return (
@@ -166,6 +187,12 @@ export class ManagerHomePage extends React.Component {
                     onHide={this.hideModal}
                     title={(this.state.currentTab === 1) ? "Request" : "Employee"}
                     bodyRender={modalView}
+                  />
+                  <InformationModal
+                    show={this.state.showAddUser}
+                    onHide={this.hideModal}
+                    title="Add Employee"
+                    bodyRender={() => <EmployeeInformationForm error={null} loading={false} submit={this.addEmployee} />}
                   />
                 </Col>
               </Row>
