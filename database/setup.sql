@@ -43,7 +43,7 @@ alter table employees add constraint employees_FK_managerID foreign key (manager
 -- Address ID's should reference the address entry
 alter table addresses add constraint addresses_FK_addressID foreign key (address_id) references employees (address_id) ON DELETE CASCADE;
 -- Requester ID should reference the employee that made the request
-alter table requests add constraint requests_FK_requesterID foreign key (requester_id) references employees (employee_id);
+alter table requests add constraint requests_FK_requesterID foreign key (requester_id) references employees (employee_id) ON DELETE CASCADE;
 -- Resolver ID should reference the employee that closes the ticket if the ticket has been resolved
 alter table requests add constraint requests_FK_resolverID foreign key (resolver_id) references employees (employee_id);
 

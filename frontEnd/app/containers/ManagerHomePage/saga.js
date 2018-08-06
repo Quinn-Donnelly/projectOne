@@ -144,6 +144,7 @@ export function* deleteUser(action) {
   }
 
   yield call(getEmployees);
+  yield call(getRequests);
 }
 
 // Individual exports for testing

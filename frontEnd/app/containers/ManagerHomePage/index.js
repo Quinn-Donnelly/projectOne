@@ -51,6 +51,10 @@ export class ManagerHomePage extends React.Component {
     this.setState({
       showModal: false,
       showAddUser: false,
+      selected: {
+        title: '',
+        id: null,
+      }
     });
   }
 
