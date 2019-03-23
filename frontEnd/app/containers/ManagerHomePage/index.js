@@ -17,7 +17,7 @@ import injectReducer from 'utils/injectReducer';
 import RequestsTable  from 'components/RequestsTable/Loadable';
 import InformationModal from 'components/InformationModal';
 import RequestReview from 'components/RequestReview/Loadable';
-import EmployeeTable from 'components/Employeetable/Loadable';
+import EmployeeTable from 'components/EmployeeTable/Loadable';
 import PresentationView from 'components/EmployeeInfoEditor/PresentationView';
 import makeSelectManagerHomePage from './selectors';
 import reducer from './reducer';
